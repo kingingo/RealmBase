@@ -27,6 +27,9 @@ public class Client {
 	@Getter
 	@Setter
 	protected long remoteNoDataTime = System.currentTimeMillis();
+	@Getter
+	@Setter
+	protected long connectTime = System.currentTimeMillis();
 	@Setter
 	@Getter
 	protected int clientId = 0;
@@ -67,6 +70,7 @@ public class Client {
 					}
 					remoteSocket.connect(remoteAddress, 10000);
 					client.remoteNoDataTime = System.currentTimeMillis();
+					client.connectTime = System.currentTimeMillis();
 					client.remoteSocket = remoteSocket;
 					RealmBase.println("Connected wtih "+socketAddress.getHostString());
 					callback.call(client, null);

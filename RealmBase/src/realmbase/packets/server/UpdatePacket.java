@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 import realmbase.GetXml;
-import realmbase.data.Entity;
+import realmbase.data.EntityData;
 import realmbase.data.Tile;
 import realmbase.packets.Packet;
 
@@ -17,7 +17,7 @@ import realmbase.packets.Packet;
 public class UpdatePacket extends Packet {
 	
 	private Tile[] tiles = new Tile[0];
-	private Entity[] newObjs = new Entity[0];
+	private EntityData[] newObjs = new EntityData[0];
 	private int[] drops = new int[0];
 
 	@Override
@@ -28,11 +28,10 @@ public class UpdatePacket extends Packet {
 			tile.parseFromInput(in);
 			this.tiles[i] = tile;
 		}
-		this.newObjs = new Entity[in.readShort()];
+		this.newObjs = new EntityData[in.readShort()];
 		for (int i = 0; i < this.newObjs.length; i++) {
-			Entity Entity = new Entity();
-			Entity.parseFromInput(in);
-			this.newObjs[i] = Entity;
+			EntityData e = EntityData.create(in);
+			this.newObjs[i] = e;
 		}
 		this.drops = new int[in.readShort()];
 		for (int i = 0; i < this.drops.length; i++) {
@@ -47,7 +46,7 @@ public class UpdatePacket extends Packet {
 			tile.writeToOutput(out);
 		}
 		out.writeShort(this.newObjs.length);
-		for (Entity obj: this.newObjs) {
+		for (EntityData obj: this.newObjs) {
 			obj.writeToOutput(out);
 		}
 		out.writeShort(this.drops.length);
@@ -56,15 +55,15 @@ public class UpdatePacket extends Packet {
 		}
 	}
 	
-	public String[] entityToString(){
+	public String[] EntityDataToString(){
 		ArrayList<String> list = new ArrayList<>();
-		for(Entity e : newObjs){
-			if(GetXml.getQuestsMap().containsKey(e.objectType)){
-				list.add("Entity: "+GetXml.getQuestsMap().get(e.objectType));
-				list.add("      ObjId: "+e.status.objectId);
-				list.add("      X: "+e.status.pos.x);
-				list.add("      Y: "+e.status.pos.y);
-				list.add("      Length: "+e.status.data.length);
+		for(EntityData e : newObjs){
+			if(GetXml.getQuestsMap().containsKey(e.getObjectType())){
+				list.add("EntityData: "+GetXml.getQuestsMap().get(e.getStatus().getObjectId()));
+				list.add("      ObjId: "+e.getStatus().getObjectId());
+				list.add("      X: "+e.getStatus().getPosition().x);
+				list.add("      Y: "+e.getStatus().getPosition().y);
+				list.add("      Length: "+e.getStatus().getData().length);
 			}
 		}
 		
@@ -73,7 +72,7 @@ public class UpdatePacket extends Packet {
 	}
 	
 	public String toString(){
-		String[] entities = entityToString();
+		String[] entities = EntityDataToString();
 		if(entities!=null) return formatToString(entities);
 		return "";
 	}

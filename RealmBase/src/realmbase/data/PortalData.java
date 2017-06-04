@@ -1,20 +1,17 @@
 package realmbase.data;
 
-public final class PortalData {
+import lombok.Getter;
+import lombok.Setter;
+import realmbase.data.Location;
+
+@Getter
+@Setter
+public class PortalData extends EntityData{
+	private int population;
 	
-	public int population;
-	public int id;
-	public Location loc;
-	public String name;
+	public PortalData() {}
 	
-	public PortalData(int population, int id, Location loc, String name) {
-		this.population = population;
-		this.id = id;
-		this.loc = loc;
-		this.name = name;
+	public PortalData(short objectType, int population, Status status, String name){
+		super(objectType,name,status);
 	}
-	
-	public PortalData() {
-	}
-	
 }

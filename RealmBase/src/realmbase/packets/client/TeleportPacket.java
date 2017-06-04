@@ -1,28 +1,33 @@
-package realmbase.data;
+package realmbase.packets.client;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import lombok.Getter;
+import lombok.Setter;
+import realmbase.packets.Packet;
 
-public class SlotObject implements IData {
+@Getter
+@Setter	
+public class TeleportPacket extends Packet {
 	
-	public int objectId;
-	public int slotId;
-	public int objectType;
+	private int objectId;
+	
+	public TeleportPacket() {}
+	
+	public TeleportPacket(int objectId) {
+		this.objectId=objectId;
+	}
 
 	@Override
 	public void parseFromInput(DataInputStream in) throws IOException {
 		this.objectId = in.readInt();
-		this.slotId = in.readUnsignedByte();
-		this.objectType = in.readShort();
 	}
 
 	@Override
 	public void writeToOutput(DataOutputStream out) throws IOException {
 		out.writeInt(this.objectId);
-		out.writeByte(this.slotId);
-		out.writeShort(this.objectType);
 	}
 
 }

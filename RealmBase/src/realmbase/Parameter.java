@@ -11,8 +11,8 @@ public class Parameter {
 	public static String proxyHost = "";
 	public static int proxyPort = 2050;
 	
-	public final static double SPEED_MULTIPLIER = 1d / 67d / 200d;
-	public final static double SPEED_BASE = 0.7d / 200d;
+	public final static double SPEED_MULTIPLIER = 7.462686567164179E-5;
+	public final static double SPEED_BASE = 0.0034999999999999996;
 	public final static int ATTACK_RATE_BASE = 485;
 	public final static double ATTACK_RATE_DEX_MULTIPLIER = 8 + 1 / 3;
 	

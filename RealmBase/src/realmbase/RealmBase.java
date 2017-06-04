@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import realmbase.listener.ObjectListener;
 import realmbase.packets.Packet;
 
 public class RealmBase {
@@ -40,5 +41,6 @@ public class RealmBase {
 		GetXml.parseXMLData();
 		GetUrl.loadServer();
 		Packet.loadPackets();
+		new ObjectListener();
 	}
 }

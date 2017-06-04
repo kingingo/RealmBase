@@ -45,7 +45,7 @@ public class New_TickPacket extends Packet {
 	public String statusesToString(){
 		String format = "";
 		for(Status s : statuses){
-			format+="    ID: "+s.objectId+" Pos:"+s.pos.x+"/"+s.pos.y+" Length:"+s.data.length+"\n";
+			format+="    ID: "+s.getObjectId()+" Pos:"+s.getPosition().x+"/"+s.getPosition().y+" Length:"+s.getData().length+"\n";
 		}
 		return format;
 	}

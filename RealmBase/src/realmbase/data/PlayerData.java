@@ -1,57 +1,66 @@
 package realmbase.data;
 
-public class PlayerData {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class PlayerData extends EntityData{
+
+	private int maxHealth = 100;
+	private int health = 100;
+	private int maxMana = 100;
+	private int mana = 100;
+	private int xpGoal;
+	private int xp;
+	private int level = 1;
+	private int[] slot = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+	private int[] backPack = { -1, -1, -1, -1, -1, -1, -1, -1 };
+	private int attack;
+	private int defense;
+	private int speed = 5;
+	private int accountId;
+	private int vitality = 5;
+	private int wisdom = 5;
+	private int dexterity = 10;
+	private int stars;
+	private int realmGold;
+	private int price;
+	private boolean canEnterPortal;
+	private int currentFame;
+	private int healthBonus;
+	private int manaBonus;
+	private int attackBonus;
+	private int defenseBonus;
+	private int speedBonus;
+	private int vitalityBonus;
+	private int wisdomBonus;
+	private int dexterityBonus;
+	private int nameChangeRankRequired;
+	private boolean nameRegistered;
+	private int fame;
+	private int fameGoal;
+	private int glowingEffect;
+	private String guild;
+	private int guildRank;
+	private int breath;
+	private int healthpotCount = -1;
+	private int manapotCount = -1;
+	private int boolHasbackPack = -1;
+	private int petSkinObjectType = -1;
+	private String mapName;
+	private boolean hasInc;
 	
-	public int maxHealth = 100;
-	public int health = 100;
-	public int maxMana = 100;
-	public int mana = 100;
-	public int xpGoal;
-	public int xp;
-	public int level = 1;
-	public int[] slot = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-	public int[] backPack = { -1, -1, -1, -1, -1, -1, -1, -1 };
-	public int attack;
-	public int defense;
-	public int speed = 5;
-	public int vitality = 5;
-	public int wisdom = 5;
-	public int dexterity = 10;
-	public int stars;
-	public String name;
-	public int realmGold;
-	public int price;
-	public boolean canEnterPortal;
-	public int accountId;
-	public int currentFame;
-	public int healthBonus;
-	public int manaBonus;
-	public int attackBonus;
-	public int defenseBonus;
-	public int speedBonus;
-	public int vitalityBonus;
-	public int wisdomBonus;
-	public int dexterityBonus;
-	public int nameChangeRankRequired;
-	public boolean nameRegistered;
-	public int fame;
-	public int fameGoal;
-	public int glowingEffect;
-	public String guild;
-	public int guildRank;
-	public int breath;
-	public int healthpotCount = -1;
-	public int manapotCount = -1;
-	public int boolHasbackPack = -1;
-	public int petSkinObjectType = -1;
-	public Location pos = new Location();
-	public String mapName;
+	public PlayerData(){}
 	
-	public boolean hasInc;
+	public PlayerData(short objectType, Status status){
+		super(objectType, "", status);
+		if(status!=null)loadStatData();
+	}
 	
-	public int id;
-	
-	public PlayerData() {
+	public void loadStatData(){
+		for(StatData sd : this.status.getData())
+			parseNewTICK(sd.id, sd.intValue, sd.stringValue);
 	}
 	
 	public void parseNewTICK(int obf0, int obf1, String obf2) {

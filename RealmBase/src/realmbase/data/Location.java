@@ -1,10 +1,10 @@
 package realmbase.data;
 
-import java.io.DataInput;
 import java.io.DataInputStream;
-import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
+
+import realmbase.data.IData;
 
 
 public class Location implements IData {
@@ -36,7 +36,15 @@ public class Location implements IData {
 		return dx * dx + dy * dy;
 	}
 	
+	public float getAngleTo(Location location) {
+		return (float) (180-Math.atan2(location.x - this.x, location.y - this.y)*180/Math.PI);
+	}
+	
 	public float distanceTo(Location location) {
 		return (float) Math.sqrt(this.distanceSquaredTo(location));
+	}
+	
+	public Location clone() {
+		return new Location(x, y);
 	}
 }

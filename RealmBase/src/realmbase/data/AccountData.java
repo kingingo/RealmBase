@@ -9,5 +9,10 @@ public class AccountData {
 	private String name = "";
 	@Getter
 	@Setter
-	private ObjectData[] charakters = new ObjectData[0];
+	private Char[] charakters = new Char[0];
+
+	public class Char{
+		public String id;
+		public int type;
+	}
 }

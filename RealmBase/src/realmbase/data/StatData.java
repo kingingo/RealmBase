@@ -6,7 +6,6 @@ import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-
 public class StatData implements IData {
 	
 	public int id;

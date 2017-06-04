@@ -8,7 +8,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,7 +18,7 @@ import org.w3c.dom.NodeList;
 
 import lombok.Getter;
 import realmbase.data.AccountData;
-import realmbase.data.ObjectData;
+import realmbase.data.AccountData.Char;
 
 public class GetUrl {
 	@Getter
@@ -30,7 +29,7 @@ public class GetUrl {
 		try {
 	        NodeList descNodes = openConnection(username, password);
 	        AccountData account = new AccountData();
-	        ArrayList<ObjectData> list = new ArrayList<>();
+	        ArrayList<AccountData.Char> list = new ArrayList<>();
 	        
 			NodeList nodeList = null;
 	        for(int i=0; i<descNodes.getLength();i++){
@@ -50,7 +49,7 @@ public class GetUrl {
 	        		
 	        		for(int j=0; j<nl.getLength(); j++){
 	    	        	Element ej = (Element) nl.item(j);
-	    	        	ObjectData obj = new ObjectData();
+	    	        	Char obj = account.new Char();
 	    	        	
 	    	        	obj.type=Integer.valueOf(ej.getElementsByTagName("ObjectType").item(0).getTextContent());
 	    	        	obj.id=ej.getAttribute("id");
@@ -59,7 +58,7 @@ public class GetUrl {
 	        	}
 	        }
 	        
-	        account.setCharakters(list.toArray(new ObjectData[list.size()]));
+	        account.setCharakters(list.toArray(new AccountData.Char[list.size()]));
 	        return account;
 		}catch (Exception e) {
 			e.printStackTrace();
