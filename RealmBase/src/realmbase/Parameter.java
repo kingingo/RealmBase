@@ -2,6 +2,8 @@ package realmbase;
 
 import java.net.InetSocketAddress;
 
+import realmbase.data.Location;
+
 public class Parameter {
 	public static String cipherIn = "72c5583cafb6818995cdd74b80";
 	public static String cipherOut = "311f80691451c71d09a13a2a6e";
@@ -11,6 +13,7 @@ public class Parameter {
 	public static String proxyHost = "";
 	public static int proxyPort = 2050;
 	
+	public final static Location PORTAL_POS = new Location( (float) 158.85611 , (float) 101.673096);
 	public final static double SPEED_MULTIPLIER = 7.462686567164179E-5;
 	public final static double SPEED_BASE = 0.0034999999999999996;
 	public final static int ATTACK_RATE_BASE = 485;
