@@ -1,7 +1,11 @@
 package realmbase;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
@@ -39,6 +43,25 @@ public class GetXml {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static HashMap<String,String> getBotList(){
+		try {
+			File file = new File("bots.txt");
+			BufferedReader in = new BufferedReader( new FileReader(file) );
+			HashMap<String,String> bots = new HashMap<>();
+			
+			String line;
+			while((line=in.readLine())!=null)
+				bots.put(line.split(":")[0], line.split(":")[1]);
+			
+			return bots;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	private static void parseXMLtoMap(String elementTagName, int xmlType, String localFilePath) throws Exception {

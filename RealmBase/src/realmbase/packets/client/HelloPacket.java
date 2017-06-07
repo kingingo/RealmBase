@@ -6,8 +6,10 @@ import java.io.IOException;
 
 import lombok.Getter;
 import lombok.Setter;
+import realmbase.Parameter;
 import realmbase.encryption.GUID;
 import realmbase.packets.Packet;
+import realmbase.packets.server.ReconnectPacket;
 
 @Getter
 @Setter
@@ -25,7 +27,7 @@ public class HelloPacket extends Packet{
 	private String mapJSON = "";
 	private String entrytag = "";
 	private String gameNet = "";
-	private String gameNetUserId = "";
+	private String gameNetUserId = "rotmg";
 	private String playPlatform = "";
 	private String platformToken = "";
 	private String userToken = "";
@@ -36,6 +38,21 @@ public class HelloPacket extends Packet{
 		setGuid(GUID.encrypt(username));
 		setPassword(GUID.encrypt(password));
 	}
+
+	public HelloPacket(ReconnectPacket packet, String username,String password){
+		this(username,password);
+		this.key=packet.getKey();
+		this.keyTime=packet.getKeyTime();
+		this.gameId=packet.getGameId();
+	}
+	
+//	public HelloPacket(byte[] key,int keyTime, int gameId, String username,String password){
+//		this.gameId=gameId;
+//		this.keyTime=keyTime;
+//		this.key=key;
+//		setGuid(GUID.encrypt(username));
+//		setPassword(GUID.encrypt(password));
+//	}
 	
 	public void parseFromInput(DataInputStream in) throws IOException {
 		this.buildVersion = in.readUTF();
@@ -61,9 +78,9 @@ public class HelloPacket extends Packet{
 		out.writeUTF(this.buildVersion);
         out.writeInt(this.gameId);
         out.writeUTF(this.guid);
-        out.writeInt( (int)Math.floor(Math.random() * 1000000000));
+        out.writeInt((int)Math.floor(Math.random() * 1000000000));
         out.writeUTF(this.password);
-        out.writeInt( (int)Math.floor(Math.random() * 1000000000));
+        out.writeInt((int)Math.floor(Math.random() * 1000000000));
         out.writeUTF(this.secret);
         out.writeInt(this.keyTime);
         out.writeShort(this.key.length);

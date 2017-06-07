@@ -4,6 +4,7 @@ import static realmbase.Client.bufferLength;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Authenticator;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -14,6 +15,7 @@ import lombok.Setter;
 import realmbase.data.Callback;
 import realmbase.data.Type;
 import realmbase.encryption.RC4;
+import realmbase.listener.ObjectListener;
 import realmbase.listener.PacketManager;
 import realmbase.packets.Packet;
 import realmbase.packets.client.HelloPacket;
@@ -33,20 +35,22 @@ public class Client {
 	@Setter
 	@Getter
 	protected int clientId = 0;
+	@Setter
+	@Getter
+	protected String name = "";
 	protected RC4 remoteRecvRC4;
 	protected RC4 remoteSendRC4;
 	protected byte[] remoteBuffer = new byte[bufferLength];
 	protected int remoteBufferIndex = 0;
-	
-	public Client(){
-		this.remoteRecvRC4 = new RC4(Parameter.cipherIn);
-		this.remoteSendRC4 = new RC4(Parameter.cipherOut);
-	}
 
 	public boolean connect(InetSocketAddress socketAddress, Callback<Client> callback) {
 		if (remoteSocket != null) {
 			return false;
 		}
+		this.remoteRecvRC4 = new RC4(Parameter.cipherIn);
+		this.remoteSendRC4 = new RC4(Parameter.cipherOut);
+		
+		ObjectListener.clear(this);
 		
 		Client client = this;
 		new Thread(new Runnable() {
@@ -57,6 +61,7 @@ public class Client {
 				if (Parameter.proxy) {
 					SocketAddress proxyAddress = new InetSocketAddress(Parameter.proxyHost, Parameter.proxyPort);
 					Proxy proxy = new Proxy(Proxy.Type.SOCKS, proxyAddress);
+					Authenticator.setDefault(Parameter.proxyAuth);
 					remoteSocket = new Socket(proxy);
 				} else {
 					remoteSocket = new Socket();
@@ -72,7 +77,7 @@ public class Client {
 					client.remoteNoDataTime = System.currentTimeMillis();
 					client.connectTime = System.currentTimeMillis();
 					client.remoteSocket = remoteSocket;
-					RealmBase.println("Connected wtih "+socketAddress.getHostString());
+					RealmBase.println("Connected wtih "+socketAddress.getHostString()+":"+socketAddress.getPort());
 					callback.call(client, null);
 				} catch (IOException e) {
 					callback.call(client, e);
@@ -92,7 +97,6 @@ public class Client {
 				try {
 					this.remoteSendRC4.cipher(packetBytes);
 					int packetLength = packetBytes.length + 5;
-						
 					DataOutputStream out = new DataOutputStream(this.remoteSocket.getOutputStream());
 					out.writeInt(packetLength);
 					out.writeByte(packet.getId());

@@ -15,14 +15,22 @@ public class RealmBase {
 	private static FileOutputStream out;
 	public static final SimpleDateFormat DATE_FORMAT_NOW = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
-	public static void println(String message){
-		System.out.println("["+DATE_FORMAT_NOW.format(Calendar.getInstance().getTime())+" | RealmBase]: "+message);
+	public static void println(String prefix, String message){
+		System.out.println(prefix+message);
 		try {
-			out.write( ("["+DATE_FORMAT_NOW.format(Calendar.getInstance().getTime())+" | RealmBase]: "+message+"\n").getBytes() );
+			out.write((prefix+message+"\n").getBytes() );
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void println(Client client, String message){
+		println("["+DATE_FORMAT_NOW.format(Calendar.getInstance().getTime())+" | "+client.getName()+"]: ", message);
+	}
+	
+	public static void println(String message){
+		println("["+DATE_FORMAT_NOW.format(Calendar.getInstance().getTime())+" | RealmBase]: ", message);
 	}
 	
 	public static void init(){

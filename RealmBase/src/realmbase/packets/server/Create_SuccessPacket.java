@@ -27,4 +27,10 @@ public class Create_SuccessPacket extends Packet {
 		out.writeInt(this.charId);
 	}
 
+	public String toString(){
+		return formatToString(new String[]{
+				"ObjId: "+this.objectId,
+				"CharId: "+this.charId
+		});
+	}
 }

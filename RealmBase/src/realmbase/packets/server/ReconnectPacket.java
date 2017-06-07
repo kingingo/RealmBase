@@ -52,6 +52,6 @@ public class ReconnectPacket extends Packet{
 				"GameId: "+this.gameId,
 				"KeyTime: "+this.keyTime,
 				"IsFromArea: "+this.isFromArena,
-				"Key:"+ new String(key)});
+				"Key:"+ key});
 	}
 }

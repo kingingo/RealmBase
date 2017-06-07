@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import realmbase.GetXml;
 import realmbase.data.IData;
+import realmbase.data.portal.PortalData;
 
 @Getter
 @Setter

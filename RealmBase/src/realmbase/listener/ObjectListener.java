@@ -2,27 +2,37 @@ package realmbase.listener;
 
 import java.util.HashMap;
 
+import lombok.Getter;
 import realmbase.Client;
 import realmbase.GetXml;
 import realmbase.RealmBase;
 import realmbase.data.EntityData;
 import realmbase.data.PlayerData;
-import realmbase.data.PortalData;
+import realmbase.data.StatData;
 import realmbase.data.Status;
 import realmbase.data.Type;
+import realmbase.data.portal.PortalData;
 import realmbase.packets.Packet;
 import realmbase.packets.server.New_TickPacket;
 import realmbase.packets.server.QuestObjIdPacket;
 import realmbase.packets.server.UpdatePacket;
-
 public class ObjectListener implements PacketListener{
 
+	@Getter
 	private static HashMap<Client,HashMap<Integer,PlayerData>> players = new HashMap<Client, HashMap<Integer, PlayerData>>();
+	@Getter
 	private static HashMap<Client,HashMap<Integer,EntityData>> quests = new HashMap<Client, HashMap<Integer,EntityData>>();
+	@Getter
 	private static HashMap<Client,HashMap<Integer,PortalData>> portals = new HashMap<Client, HashMap<Integer,PortalData>>();
 	
 	public ObjectListener() {
 		PacketManager.addListener(this);
+	}
+	
+	public static void clear(Client client){
+		players.remove(client);
+		quests.remove(client);
+		portals.remove(client);
 	}
 	
 	public static PlayerData getPlayerData(Client client, String name){
@@ -53,10 +63,18 @@ public class ObjectListener implements PacketListener{
 				if(GetXml.getPlayersMap().containsKey(Integer.valueOf(e.getObjectType()))){
 					PlayerData player = (PlayerData) e;
 					player.loadStatData();
-					RealmBase.println("Load: "+player.getStatus().getObjectId()+" "+player.getName());
+//					RealmBase.println("Load: "+player.getStatus().getObjectId()+" "+player.getName());
 					players.get(client).put(e.getStatus().getObjectId(), player);
 				}else if(GetXml.getPortalsMap().containsKey(Integer.valueOf(e.getObjectType()))){
 					portals.get(client).put(e.getStatus().getObjectId(), (PortalData) e);
+					PortalData p = (PortalData) e;
+//					RealmBase.println("TYPE: "+p.getObjectType()+" "+GetXml.getPortalsMap().get(Integer.valueOf(p.getObjectType())));
+//					RealmBase.println("ID: "+p.getStatus().getObjectId());
+//					RealmBase.println("NAME: "+p.getName());
+//					for(StatData s : p.getStatus().getData()){
+//						RealmBase.println("S: "+s.id+" "+s.intValue+" "+s.stringValue);
+//					}
+					
 				}else if(GetXml.getQuestsMap().containsKey(Integer.valueOf(e.getObjectType()))){
 					quests.get(client).put(e.getStatus().getObjectId(), e);
 				}
