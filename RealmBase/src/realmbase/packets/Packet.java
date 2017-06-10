@@ -24,8 +24,10 @@ public abstract class Packet implements IData{
 		
 		for ( Class<? extends Packet> clazz : moduleClasses ){
 			if(clazz == UnknownPacket.class)continue;
-			int packetId = GetXml.getPacketMapName().get(clazz.getSimpleName().substring(0, clazz.getSimpleName().indexOf("Packet")).toUpperCase());
-			packets.put(packetId+"", clazz);
+			if(GetXml.getPacketMapName().containsKey(clazz.getSimpleName().substring(0, clazz.getSimpleName().indexOf("Packet")).toUpperCase())){
+				int packetId = GetXml.getPacketMapName().get(clazz.getSimpleName().substring(0, clazz.getSimpleName().indexOf("Packet")).toUpperCase());
+				packets.put(packetId+"", clazz);
+			}
 		}
 	}
 	

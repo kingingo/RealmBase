@@ -38,7 +38,9 @@ public class Client {
 	@Setter
 	@Getter
 	protected String name = "";
+	@Setter
 	protected RC4 remoteRecvRC4;
+	@Setter
 	protected RC4 remoteSendRC4;
 	protected byte[] remoteBuffer = new byte[bufferLength];
 	protected int remoteBufferIndex = 0;
@@ -47,16 +49,16 @@ public class Client {
 		if (remoteSocket != null) {
 			return false;
 		}
-		this.remoteRecvRC4 = new RC4(Parameter.cipherIn);
-		this.remoteSendRC4 = new RC4(Parameter.cipherOut);
-		
-		ObjectListener.clear(this);
 		
 		Client client = this;
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
+				client.setRemoteRecvRC4(new RC4(Parameter.cipherIn)); 
+				client.setRemoteSendRC4(new RC4(Parameter.cipherOut));
+				
+				ObjectListener.clear(client);
 				Socket remoteSocket;
 				if (Parameter.proxy) {
 					SocketAddress proxyAddress = new InetSocketAddress(Parameter.proxyHost, Parameter.proxyPort);

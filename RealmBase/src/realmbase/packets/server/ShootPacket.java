@@ -4,19 +4,23 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import lombok.Getter;
+import lombok.Setter;
 import realmbase.data.Location;
 import realmbase.packets.Packet;
 
+@Getter
+@Setter
 public class ShootPacket extends Packet {
 	
-	public int bulletId;
-	public int ownerId;
-	public int bulletType;
-	public Location startingPos = new Location();
-	public float angle;
-	public short damage;
-	public int numShots;
-	public float angleInc;
+	private int bulletId;
+	private int ownerId;
+	private int bulletType;
+	private Location startingPos = new Location();
+	private float angle;
+	private short damage;
+	private int numShots;
+	private float angleInc;
 
 	@Override
 	public void parseFromInput(DataInputStream in) throws IOException {

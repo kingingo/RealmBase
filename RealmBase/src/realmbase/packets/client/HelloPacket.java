@@ -46,14 +46,6 @@ public class HelloPacket extends Packet{
 		this.gameId=packet.getGameId();
 	}
 	
-//	public HelloPacket(byte[] key,int keyTime, int gameId, String username,String password){
-//		this.gameId=gameId;
-//		this.keyTime=keyTime;
-//		this.key=key;
-//		setGuid(GUID.encrypt(username));
-//		setPassword(GUID.encrypt(password));
-//	}
-	
 	public void parseFromInput(DataInputStream in) throws IOException {
 		this.buildVersion = in.readUTF();
 		this.gameId = in.readInt();
@@ -85,15 +77,14 @@ public class HelloPacket extends Packet{
         out.writeInt(this.keyTime);
         out.writeShort(this.key.length);
         out.write(this.key);
-        out.writeUTF(this.mapJSON);
+        out.writeInt(this.mapJSON.length());
+        out.writeBytes(this.mapJSON);
         out.writeUTF(this.entrytag);
         out.writeUTF(this.gameNet);
         out.writeUTF(this.gameNetUserId);
         out.writeUTF(this.playPlatform);
         out.writeUTF(this.platformToken);
         out.writeUTF(this.userToken);
-        out.write(0);
-        out.write(0);
 	}
 	
 	public String toString(){

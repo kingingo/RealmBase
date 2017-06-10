@@ -1,5 +1,8 @@
 package realmbase;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
@@ -17,6 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import lombok.Getter;
+import realmbase.configuration.file.YamlConfiguration;
 import realmbase.data.AccountData;
 import realmbase.data.AccountData.Char;
 
@@ -24,6 +28,13 @@ public class GetUrl {
 	@Getter
 	private static final HashMap<String, InetSocketAddress> serverAdresses = new HashMap<String, InetSocketAddress>();
 	private static final String LINK = "http://realmofthemadgodhrd.appspot.com/char/list";
+	
+	public static void save(AccountData data){
+		File file = new File("bots/"+data.getName()+".yml");
+		YamlConfiguration config = new YamlConfiguration(file);
+		
+		
+	}
 	
 	public static AccountData loadAccount(String username,String password){
 		try {

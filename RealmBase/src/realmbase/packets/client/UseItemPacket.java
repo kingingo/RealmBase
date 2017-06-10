@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import realmbase.RealmBase;
 import realmbase.data.Location;
 import realmbase.data.SlotObject;
 import realmbase.packets.Packet;
@@ -22,6 +23,9 @@ public class UseItemPacket extends Packet {
 		this.slotObject.parseFromInput(in);
 		this.itemUsePos.parseFromInput(in);
 		this.useType = in.readUnsignedByte();
+		
+//		RealmBase.println("B: "+in.read());
+//		RealmBase.println("B: "+in.read());
 	}
 
 	@Override
@@ -32,4 +36,12 @@ public class UseItemPacket extends Packet {
 		out.writeByte(this.useType);
 	}
 
+	public String toString(){
+		return formatToString(new String[]{
+				"Time: "+this.time,
+				"SlotObj: "+slotObject.toString(),
+				"Location: "+itemUsePos.x+"/"+itemUsePos.y,
+				"UseType: "+useType
+		});
+	}
 }

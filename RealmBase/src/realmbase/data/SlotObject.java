@@ -17,14 +17,17 @@ public class SlotObject implements IData {
 	public void parseFromInput(DataInputStream in) throws IOException {
 		this.objectId = in.readInt();
 		this.slotId = in.readUnsignedByte();
-		this.objectType = in.readShort();
+		this.objectType = in.readInt();
 	}
 
 	@Override
 	public void writeToOutput(DataOutputStream out) throws IOException {
 		out.writeInt(this.objectId);
 		out.writeByte(this.slotId);
-		out.writeShort(this.objectType);
+		out.writeInt(this.objectType);
 	}
 
+	public String toString(){
+		return "ObjId: "+this.objectId+"\nSlotId: "+this.slotId+"\nObjType: "+this.objectType;
+	}
 }
