@@ -16,6 +16,7 @@ public class Show_EffectPacket extends Packet {
 	public Location pos1 = new Location();
 	public Location pos2 = new Location();
 	public int color;
+    public float duration;
 
 	@Override
 	public void parseFromInput(DataInputStream in) throws IOException {
@@ -24,6 +25,7 @@ public class Show_EffectPacket extends Packet {
 		this.pos1.parseFromInput(in);
 		this.pos2.parseFromInput(in);
 		this.color = in.readInt();
+		this.duration = in.readFloat();
 	}
 
 	@Override
@@ -33,6 +35,7 @@ public class Show_EffectPacket extends Packet {
 		this.pos1.writeToOutput(out);
 		this.pos2.writeToOutput(out);
 		out.writeInt(this.color);
+		out.writeFloat(this.duration);
 	}
 
 }

@@ -11,9 +11,9 @@ public class Parameter {
 	public static InetSocketAddress remoteHost = GetUrl.getServerAdresses().get("USMidWest".toUpperCase());
 	
 	public static boolean proxy = false;
-	public static String proxyHost = "5.1.80.232";
-	public static int proxyPort = 2980;
-	public static ProxyAuth proxyAuth  = new ProxyAuth("root", "837c54e6a4224f368491");
+	public static String proxyHost = "";
+	public static int proxyPort = 80;
+	public static ProxyAuth proxyAuth  = new ProxyAuth("", "");
 	
 	public final static Location PORTAL_POS = new Location( (float) 158.85611 , (float) 101.673096);
 	public final static double SPEED_MULTIPLIER = 7.462686567164179E-5;

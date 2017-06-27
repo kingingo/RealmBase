@@ -14,6 +14,12 @@ public class PlayerTextPacket extends Packet{
 
 	private String text;
 
+	public PlayerTextPacket(){}
+	
+	public PlayerTextPacket(String text){
+		this.text=text;
+	}
+	
 	@Override
 	public void parseFromInput(DataInputStream in) throws IOException {
 		this.text = in.readUTF();

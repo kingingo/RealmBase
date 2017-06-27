@@ -61,25 +61,34 @@ public class Client {
 				ObjectListener.clear(client);
 				Socket remoteSocket;
 				if (Parameter.proxy) {
+					RealmBase.println("PROXY");
 					SocketAddress proxyAddress = new InetSocketAddress(Parameter.proxyHost, Parameter.proxyPort);
 					Proxy proxy = new Proxy(Proxy.Type.SOCKS, proxyAddress);
 					Authenticator.setDefault(Parameter.proxyAuth);
 					remoteSocket = new Socket(proxy);
 				} else {
+					RealmBase.println("NO PROXY");
 					remoteSocket = new Socket();
 				}
+				
 				try {
 					SocketAddress remoteAddress;
 					if (InetAddress.getByName(socketAddress.getHostString()).isLoopbackAddress()) {
+						RealmBase.println("1");
 						remoteAddress = new InetSocketAddress(Parameter.remoteHost.getHostString(), socketAddress.getPort() == -1 ? Parameter.remoteHost.getPort() : socketAddress.getPort());
 					} else {
+						RealmBase.println("2");
 						remoteAddress = new InetSocketAddress(socketAddress.getHostString(), socketAddress.getPort() == -1 ? Parameter.remoteHost.getPort() : socketAddress.getPort());
 					}
+					
+					RealmBase.println("remoteSocket: " + (remoteSocket==null) );
+					RealmBase.println("remoteAddress: " + (remoteAddress==null) );
+					RealmBase.println("Connected wtih "+socketAddress.getHostString()+":"+socketAddress.getPort());
+					
 					remoteSocket.connect(remoteAddress, 10000);
 					client.remoteNoDataTime = System.currentTimeMillis();
 					client.connectTime = System.currentTimeMillis();
 					client.remoteSocket = remoteSocket;
-					RealmBase.println("Connected wtih "+socketAddress.getHostString()+":"+socketAddress.getPort());
 					callback.call(client, null);
 				} catch (IOException e) {
 					callback.call(client, e);
