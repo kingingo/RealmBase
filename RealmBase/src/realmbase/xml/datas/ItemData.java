@@ -1,4 +1,7 @@
-package realmbase.data;
+package realmbase.xml.datas;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemData {
 	
@@ -20,6 +23,6 @@ public class ItemData {
 	public int mpEndCost = -1; // element MpEndCost
 	public boolean multiPhase = false; // element MultiPhase
 	public int numProjectiles = -1; // element NumProjectiles
-	public Object[] projectiles = new Object[0];
+	public List<ProjectileData> projectiles = null;
 
 }

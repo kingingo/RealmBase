@@ -4,11 +4,12 @@ import java.net.InetSocketAddress;
 
 import realmbase.data.Location;
 import realmbase.proxy.ProxyAuth;
+import realmbase.xml.GetUrl;
 
 public class Parameter {
 	public static String cipherIn = "72c5583cafb6818995cdd74b80";
 	public static String cipherOut = "311f80691451c71d09a13a2a6e";
-	public static InetSocketAddress remoteHost = GetUrl.getServerAdresses().get("USMidWest".toUpperCase());
+	public static InetSocketAddress remoteHost = GetUrl.getServerAdresses().get("EuNorth".toUpperCase());
 	
 	public static boolean proxy = false;
 	public static String proxyHost = "";

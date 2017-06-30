@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import realmbase.Client;
-import realmbase.GetXml;
 import realmbase.RealmBase;
 import realmbase.data.EntityData;
 import realmbase.data.PlayerData;
@@ -16,98 +15,83 @@ import realmbase.packets.Packet;
 import realmbase.packets.server.New_TickPacket;
 import realmbase.packets.server.QuestObjIdPacket;
 import realmbase.packets.server.UpdatePacket;
+import realmbase.xml.GetXml;
 public class ObjectListener implements PacketListener{
 
 	@Getter
-	private static HashMap<Client,HashMap<Integer,PlayerData>> players = new HashMap<Client, HashMap<Integer, PlayerData>>();
-	@Getter
-	private static HashMap<Client,HashMap<Integer,EntityData>> quests = new HashMap<Client, HashMap<Integer,EntityData>>();
-	@Getter
-	private static HashMap<Client,HashMap<Integer,PortalData>> portals = new HashMap<Client, HashMap<Integer,PortalData>>();
+	private static HashMap<Client,HashMap<Integer,EntityData>> entities = new HashMap<Client, HashMap<Integer,EntityData>>();
 	
 	public ObjectListener() {
 		PacketManager.addListener(this);
 	}
 	
 	public static void clear(Client client){
-		players.remove(client);
-		quests.remove(client);
-		portals.remove(client);
+		entities.remove(client);
 	}
 	
 	public static PlayerData getPlayerData(Client client, String name){
-		if(players.containsKey(client))
-			for(PlayerData data : players.get(client).values())
-				if(data.getName().equalsIgnoreCase(name))return data;
+		if(entities.containsKey(client))
+			for(EntityData data : entities.get(client).values())
+				if(data instanceof PlayerData && 
+						data.getName().equalsIgnoreCase(name))return ((PlayerData)data);
 		return null;
 	}
 	
+	public static HashMap<Integer,EntityData> get(Client client){
+		return entities.get(client);
+	}
+	
 	public static EntityData getObject(Client client, int objectId){
-		if(players.get(client).containsKey(objectId))return players.get(client).get(objectId);
-		if(quests.get(client).containsKey(objectId))return quests.get(client).get(objectId);
-		if(portals.get(client).containsKey(objectId))return portals.get(client).get(objectId);
+		if(entities.get(client).containsKey(objectId))return entities.get(client).get(objectId);
 		return null;
 	}
 	
 	@Override
 	public boolean onReceive(Client client, Packet packet, Type from) {
-		if(!players.containsKey(client))players.put(client, new HashMap<>());
-		if(!quests.containsKey(client))quests.put(client, new HashMap<>());
-		if(!portals.containsKey(client))portals.put(client, new HashMap<>());
+		if(!entities.containsKey(client))entities.put(client, new HashMap<>());
 		
-		if(packet.getId() == GetXml.getPacketMapName().get("UPDATE")){
+		if(packet.getId() == GetXml.packetMapName.get("UPDATE")){
 			UpdatePacket upacket = (UpdatePacket)packet;
 			for(int i = 0; i < upacket.getNewObjs().length ; i++){
 				EntityData e = upacket.getNewObjs()[i];
 				
-				if(GetXml.getPlayersMap().containsKey(Integer.valueOf(e.getObjectType()))){
+				if(GetXml.packetMapName.containsKey(Integer.valueOf(e.getObjectType()))
+						&& GetXml.objectMap.get(Integer.valueOf(e.getObjectType())).player){
 					PlayerData player = (PlayerData) e;
-					player.loadStatData();
-//					RealmBase.println("Load: "+player.getStatus().getObjectId()+" "+player.getName());
-					players.get(client).put(e.getStatus().getObjectId(), player);
-				}else if(GetXml.getPortalsMap().containsKey(Integer.valueOf(e.getObjectType()))){
-					portals.get(client).put(e.getStatus().getObjectId(), (PortalData) e);
-					PortalData p = (PortalData) e;
-//					RealmBase.println("TYPE: "+p.getObjectType()+" "+GetXml.getPortalsMap().get(Integer.valueOf(p.getObjectType())));
-//					RealmBase.println("ID: "+p.getStatus().getObjectId());
-//					RealmBase.println("NAME: "+p.getName());
-//					for(StatData s : p.getStatus().getData()){
-//						RealmBase.println("S: "+s.id+" "+s.intValue+" "+s.stringValue);
-//					}
-					
-				}else if(GetXml.getQuestsMap().containsKey(Integer.valueOf(e.getObjectType()))){
-					quests.get(client).put(e.getStatus().getObjectId(), e);
+					entities.get(client).put(e.getStatus().getObjectId(), player);
+				}else if(GetXml.objectMap.containsKey(Integer.valueOf(e.getObjectType()))
+						&& GetXml.objectMap.get(Integer.valueOf(e.getObjectType())).portal){
+					PortalData portal = (PortalData) e;
+					entities.get(client).put(e.getStatus().getObjectId(), portal);
+				}else{
+					entities.get(client).put(e.getStatus().getObjectId(), e);
 				}
 			}
 			
-			for(int i = 0; i < upacket.getDrops().length ; i++){
-				int objectId = upacket.getDrops()[i];
-				
-				players.get(client).remove(objectId);
-				portals.get(client).remove(objectId);
-				quests.get(client).remove(objectId);
-			}
-		}else if(packet.getId() == GetXml.getPacketMapName().get("NEW_TICK")){
+			for(int i = 0; i < upacket.getDrops().length ; i++)
+				entities.get(client).remove(upacket.getDrops()[i]);
+		}else if(packet.getId() == GetXml.packetMapName.get("NEW_TICK")){
 			New_TickPacket tpacket = (New_TickPacket)packet;
 			
 			for(int i = 0; i < tpacket.getStatuses().length ; i++){
 				Status e = tpacket.getStatuses()[i];
 				
-				for(Integer objectId : players.get(client).keySet()){
+				for(Integer objectId : entities.get(client).keySet()){
 					if(objectId == e.getObjectId()){
-						players.get(client).get(objectId).getStatus().getPosition().x=e.getPosition().x;
-						players.get(client).get(objectId).getStatus().getPosition().y=e.getPosition().y;
+						entities.get(client).get(objectId).getStatus().getPosition().x=e.getPosition().x;
+						entities.get(client).get(objectId).getStatus().getPosition().y=e.getPosition().y;
 						break;
 					}
 				}
 			}
-		}else if(packet.getId() == GetXml.getPacketMapName().get("QUESTOBJID")){
-			QuestObjIdPacket qpacket = (QuestObjIdPacket)packet;
-			
-			if(quests.get(client).containsKey(qpacket.getObjectId())){
-				EntityData e = quests.get(client).get(qpacket.getObjectId());
-			}
 		}
+//		else if(packet.getId() == GetXml.packetMapName.get("QUESTOBJID")){
+//			QuestObjIdPacket qpacket = (QuestObjIdPacket)packet;
+//			
+//			if(entities.get(client).containsKey(qpacket.getObjectId())){
+//				EntityData e = entities.get(client).get(qpacket.getObjectId());
+//			}
+//		}
 		return false;
 	}
 

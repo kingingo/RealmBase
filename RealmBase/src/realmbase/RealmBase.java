@@ -1,14 +1,22 @@
 package realmbase;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import realmbase.listener.ObjectListener;
 import realmbase.packets.Packet;
+import realmbase.xml.GetUrl;
+import realmbase.xml.GetXml;
 
 public class RealmBase {
 	private static File file;
@@ -17,12 +25,12 @@ public class RealmBase {
 	
 	public static void println(String prefix, String message){
 		System.out.println(prefix+message);
-		try {
-			out.write((prefix+message+"\n").getBytes() );
-			out.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			out.write((prefix+message+"\n").getBytes() );
+//			out.flush();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	public static void println(Client client, String message){
@@ -39,8 +47,8 @@ public class RealmBase {
 			out = new FileOutputStream(file);
 			
 			if (!file.exists()) {
-			     file.createNewFile();
-			  }
+			    file.createNewFile();
+			}
 		} catch (FileNotFoundException e2) {
 			e2.printStackTrace();
 		} catch (IOException e) {
@@ -50,5 +58,38 @@ public class RealmBase {
 		GetUrl.loadServer();
 		Packet.loadPackets();
 		new ObjectListener();
+		
+		PrintStream previous = System.out;   
+	    OutputStream outputStreamCombiner =  new OutputStreamCombiner(Arrays.asList(previous, out)); 
+	    PrintStream custom = new PrintStream(outputStreamCombiner);
+	    System.setOut(custom);
+	    System.setErr(custom);
 	}
+	
+	private static class OutputStreamCombiner extends OutputStream {
+        private List<OutputStream> outputStreams;
+
+        public OutputStreamCombiner(List<OutputStream> outputStreams) {
+            this.outputStreams = outputStreams;
+        }
+
+        public void write(int b) throws IOException {
+            for (OutputStream os : outputStreams) {
+                os.write(b);
+            }
+        }
+
+        public void flush() throws IOException {
+            for (OutputStream os : outputStreams) {
+                os.flush();
+            }
+        }
+
+        public void close() throws IOException {
+            for (OutputStream os : outputStreams) {
+                os.close();
+            }
+        }
+    }
 }
+

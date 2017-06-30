@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 import lombok.Getter;
 import lombok.Setter;
-import realmbase.GetXml;
 import realmbase.data.EntityData;
 import realmbase.data.Tile;
 import realmbase.packets.Packet;
+import realmbase.xml.GetXml;
 
 @Getter
 @Setter
@@ -58,8 +58,9 @@ public class UpdatePacket extends Packet {
 	public String[] EntityDataToString(){
 		ArrayList<String> list = new ArrayList<>();
 		for(EntityData e : newObjs){
-			if(GetXml.getQuestsMap().containsKey(e.getObjectType())){
-				list.add("EntityData: "+GetXml.getQuestsMap().get(e.getStatus().getObjectId()));
+			if(GetXml.objectMap.containsKey(e.getObjectType())
+					&& GetXml.objectMap.get(e.getObjectType()).quest){
+				list.add("EntityData: "+GetXml.objectMap.get(e.getStatus().getObjectId()).id);
 				list.add("      ObjId: "+e.getStatus().getObjectId());
 				list.add("      X: "+e.getStatus().getPosition().x);
 				list.add("      Y: "+e.getStatus().getPosition().y);

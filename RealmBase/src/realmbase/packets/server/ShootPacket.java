@@ -53,4 +53,16 @@ public class ShootPacket extends Packet {
 		}
 	}
 
+	public String toString(){
+		return formatToString(new String[]{
+				"BulletId: "+this.bulletId,
+				"OwnerId: "+this.ownerId,
+				"BulletType: "+this.bulletType,
+				"Pos: "+this.startingPos.x+"/"+this.startingPos.y,
+				"Angle: "+this.angle,
+				"Damage: "+this.damage,
+				"numShots: "+this.numShots,
+				"AngleInc: "+this.angleInc
+		});
+	}
 }

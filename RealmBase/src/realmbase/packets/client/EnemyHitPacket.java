@@ -13,6 +13,15 @@ public class EnemyHitPacket extends Packet {
 	public int bulletId;
 	public int targetId;
 	public boolean kill;
+	
+	public EnemyHitPacket() {}
+	
+	public EnemyHitPacket(int time, int bulletId, int targetId, boolean kill) {
+		this.time=time;
+		this.bulletId=bulletId;
+		this.targetId=targetId;
+		this.kill=kill;
+	}
 
 	@Override
 	public void parseFromInput(DataInputStream in) throws IOException {
@@ -30,4 +39,12 @@ public class EnemyHitPacket extends Packet {
 		out.writeBoolean(this.kill);
 	}
 
+	public String toString(){
+		return formatToString(new String[]{
+				"Time: "+this.time,
+				"BulletId: "+this.bulletId,
+				"TargetId: "+this.targetId,
+				"Kill: "+this.kill
+		});
+	}
 }

@@ -23,9 +23,6 @@ public class UseItemPacket extends Packet {
 		this.slotObject.parseFromInput(in);
 		this.itemUsePos.parseFromInput(in);
 		this.useType = in.readUnsignedByte();
-		
-//		RealmBase.println("B: "+in.read());
-//		RealmBase.println("B: "+in.read());
 	}
 
 	@Override

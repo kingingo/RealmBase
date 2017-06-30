@@ -11,9 +11,9 @@ import java.util.List;
 
 import org.reflections.Reflections;
 
-import realmbase.GetXml;
 import realmbase.RealmBase;
 import realmbase.data.IData;
+import realmbase.xml.GetXml;
 
 public abstract class Packet implements IData{
 	private static final HashMap<String,Class<? extends Packet>> packets = new HashMap<String, Class<? extends Packet>>();
@@ -24,8 +24,8 @@ public abstract class Packet implements IData{
 		
 		for ( Class<? extends Packet> clazz : moduleClasses ){
 			if(clazz == UnknownPacket.class)continue;
-			if(GetXml.getPacketMapName().containsKey(clazz.getSimpleName().substring(0, clazz.getSimpleName().indexOf("Packet")).toUpperCase())){
-				int packetId = GetXml.getPacketMapName().get(clazz.getSimpleName().substring(0, clazz.getSimpleName().indexOf("Packet")).toUpperCase());
+			if(GetXml.packetMapName.containsKey(clazz.getSimpleName().substring(0, clazz.getSimpleName().indexOf("Packet")).toUpperCase())){
+				int packetId = GetXml.packetMapName.get(clazz.getSimpleName().substring(0, clazz.getSimpleName().indexOf("Packet")).toUpperCase());
 				packets.put(packetId+"", clazz);
 			}
 		}
@@ -36,7 +36,7 @@ public abstract class Packet implements IData{
 	}
 	
 	public int getId(){
-		return GetXml.getPacketMapName().get(getPacketName());
+		return GetXml.packetMapName.get(getPacketName());
 	}
 	
 	public byte[] toByteArray(){

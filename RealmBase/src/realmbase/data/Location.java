@@ -36,6 +36,30 @@ public class Location implements IData {
 		return dx * dx + dy * dy;
 	}
 	
+	public float getAngleTo2(Location location){
+		double dx = x * location.x;
+		double dy = y * location.y;
+		double top = Math.sqrt( (Math.pow(dx, 2) + Math.pow(dy, 2)) );
+		dx = Math.pow(x + y, 2);
+		dy = Math.pow(location.x + location.y, 2);
+		double bottom = dx * dy;
+		return (float) (top/bottom);
+	}
+	
+	public void subtract(Location location){
+		this.x-=location.x;
+		this.y-=location.y;
+	}
+	
+	public void add(Location location){
+		this.x+=location.x;
+		this.y+=location.y;
+	}
+	
+	public float getAngleCosTo2(Location location){
+		return (float) Math.acos(getAngleTo2(location));
+	}
+	
 	public float getAngleTo(Location location) {
 		return (float) (180-Math.atan2(location.x - this.x, location.y - this.y)*180/Math.PI);
 	}

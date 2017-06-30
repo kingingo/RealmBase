@@ -38,4 +38,14 @@ public class Show_EffectPacket extends Packet {
 		out.writeFloat(this.duration);
 	}
 
+	public String toString(){
+		return formatToString(new String[]{
+				"EffectType: "+this.effectType,
+				"TargetId: "+this.targetObjectId,
+				"Pos1: "+this.pos1.x+"/"+this.pos1.y,
+				"Pos2: "+this.pos2.x+"/"+this.pos2.y,
+				"Color: "+this.color,
+				"Duation: "+this.duration
+		});
+	}
 }

@@ -1,4 +1,4 @@
-package realmbase;
+package realmbase.xml;
 
 import java.io.File;
 import java.io.FileNotFoundException;

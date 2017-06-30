@@ -6,20 +6,20 @@ import java.io.IOException;
 
 import lombok.Getter;
 import lombok.Setter;
-import realmbase.GetXml;
 import realmbase.data.IData;
 import realmbase.data.portal.PortalData;
+import realmbase.xml.GetXml;
 
 @Getter
 @Setter
 public class EntityData implements IData{
-	protected short objectType;
+	protected int objectType;
 	protected String name;
 	protected Status status = new Status();
 	
 	public EntityData(){}
 	
-	public EntityData(short objectType, String name, Status status2){
+	public EntityData(int objectType, String name, Status status2){
 		this.objectType=objectType;
 		this.status=status2;
 		this.name=name;
@@ -27,7 +27,6 @@ public class EntityData implements IData{
 	
 	@Override
 	public void parseFromInput(DataInputStream in) throws IOException {
-//		this.objectType = in.readShort();
 		this.status.parseFromInput(in);
 	}
 	
@@ -39,22 +38,28 @@ public class EntityData implements IData{
 	
 	public static EntityData create(DataInputStream in){
 		try {
-			EntityData e;
+			EntityData e = null;
 			
-			int objectType = Integer.valueOf(in.readShort());
-			if(GetXml.getPlayersMap().containsKey(objectType)){
-				e = new PlayerData();
-				e.parseFromInput(in);
-				((PlayerData)e).loadStatData();
-			}else if(GetXml.getPortalsMap().containsKey(objectType)){
-				e = new PortalData();
-				e.parseFromInput(in);
-			}else{
+			int objectType = in.readShort();
+			if(GetXml.objectMap.containsKey(objectType)){
+				if(GetXml.objectMap.get(objectType).player){
+					e = new PlayerData();
+					e.setObjectType(objectType);
+					e.parseFromInput(in);
+					((PlayerData)e).loadStatData();
+				}else if(GetXml.objectMap.get(objectType).portal){
+					e = new PortalData();
+					e.setObjectType(objectType);
+					e.parseFromInput(in);
+					((PortalData)e).loadStat();
+				}
+			}
+			
+			if(e==null){
 				e = new EntityData();
+				e.setObjectType(objectType);
 				e.parseFromInput(in);
 			}
-			e.setObjectType((short) objectType);
-			
 			return e;
 		} catch (IOException e) {
 			e.printStackTrace();
