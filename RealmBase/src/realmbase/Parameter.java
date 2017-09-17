@@ -7,6 +7,10 @@ import realmbase.proxy.ProxyAuth;
 import realmbase.xml.GetUrl;
 
 public class Parameter {
+	//Version ID: http://www.realmofthemadgod.com/version.txt
+	//SWF File: https://realmofthemadgodhrd.appspot.com/AssembleeGameClientVERSIONID.swf
+	//          https://realmofthemadgodhrd.appspot.com/AssembleeGameClient1501601788.swf
+	
 	public static String cipherIn = "72c5583cafb6818995cdd74b80";
 	public static String cipherOut = "311f80691451c71d09a13a2a6e";
 	public static InetSocketAddress remoteHost = GetUrl.getServerAdresses().get("EuNorth".toUpperCase());
@@ -16,6 +20,7 @@ public class Parameter {
 	public static int proxyPort = 80;
 	public static ProxyAuth proxyAuth  = new ProxyAuth("", "");
 	
+	public final static String BUILD_VERSION = "X17.0.0";
 	public final static Location PORTAL_POS = new Location( (float) 158.85611 , (float) 101.673096);
 	public final static double SPEED_MULTIPLIER = 7.462686567164179E-5;
 	public final static double SPEED_BASE = 0.0034999999999999996;

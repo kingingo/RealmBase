@@ -14,7 +14,7 @@ import realmbase.packets.Packet;
 
 @Getter
 @Setter
-public class New_TickPacket extends Packet {
+public class NewTickPacket extends Packet {
 	
 	private int tickId;
 	private int tickTime;

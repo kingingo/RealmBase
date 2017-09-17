@@ -12,7 +12,7 @@ import realmbase.data.Status;
 import realmbase.data.Type;
 import realmbase.data.portal.PortalData;
 import realmbase.packets.Packet;
-import realmbase.packets.server.New_TickPacket;
+import realmbase.packets.server.NewTickPacket;
 import realmbase.packets.server.QuestObjIdPacket;
 import realmbase.packets.server.UpdatePacket;
 import realmbase.xml.GetXml;
@@ -70,8 +70,8 @@ public class ObjectListener implements PacketListener{
 			
 			for(int i = 0; i < upacket.getDrops().length ; i++)
 				entities.get(client).remove(upacket.getDrops()[i]);
-		}else if(packet.getId() == GetXml.packetMapName.get("NEW_TICK")){
-			New_TickPacket tpacket = (New_TickPacket)packet;
+		}else if(packet.getId() == GetXml.packetMapName.get("NEWTICK")){
+			NewTickPacket tpacket = (NewTickPacket)packet;
 			
 			for(int i = 0; i < tpacket.getStatuses().length ; i++){
 				Status e = tpacket.getStatuses()[i];

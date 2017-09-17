@@ -15,7 +15,7 @@ import realmbase.packets.server.ReconnectPacket;
 @Setter
 public class HelloPacket extends Packet{
 
-	private String buildVersion = "X15.0.0";
+	private String buildVersion = Parameter.BUILD_VERSION;
 	private int gameId = 0;
 	private String guid = "";
 	private int random1 = 0;

@@ -75,7 +75,7 @@ public abstract class Packet implements IData{
 				packet.parseFromInput(data);
 				int byteLength = packet.toByteArray().length;
 				if(byteLength != data.length){
-					RealmBase.println("Die Packet länge  von "+packet.getPacketName()+" stimmt nicht "+byteLength+" != "+data.length);
+					RealmBase.println("Die Packet laenge  von "+packet.getPacketName()+" stimmt nicht "+byteLength+" != "+data.length);
 				}
 				return packet;
 			} catch (IOException e) {
