@@ -1,7 +1,5 @@
 package realmbase;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,7 +11,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import realmbase.listener.ObjectListener;
+import realmbase.listener.PacketListener;
 import realmbase.packets.Packet;
 import realmbase.xml.GetUrl;
 import realmbase.xml.GetXml;
@@ -57,7 +55,7 @@ public class RealmBase {
 		GetXml.parseXMLData();
 		GetUrl.loadServer();
 		Packet.loadPackets();
-		new ObjectListener();
+		new PacketListener();
 		
 		PrintStream previous = System.out;   
 	    OutputStream outputStreamCombiner =  new OutputStreamCombiner(Arrays.asList(previous, out)); 

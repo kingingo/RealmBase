@@ -1,7 +1,5 @@
 package realmbase;
 
-import static realmbase.Client.bufferLength;
-
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Authenticator;
@@ -10,15 +8,16 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Socket;
 import java.net.SocketAddress;
+
 import lombok.Getter;
 import lombok.Setter;
 import realmbase.data.Callback;
 import realmbase.data.Type;
 import realmbase.encryption.RC4;
-import realmbase.listener.ObjectListener;
-import realmbase.listener.PacketManager;
+import realmbase.event.EventManager;
+import realmbase.event.events.PacketSendEvent;
+import realmbase.listener.PacketListener;
 import realmbase.packets.Packet;
-import realmbase.packets.client.HelloPacket;
 
 public class Client {
 	protected static final int bufferLength = 65536 * 10;
@@ -58,7 +57,7 @@ public class Client {
 				client.setRemoteRecvRC4(new RC4(Parameter.cipherIn)); 
 				client.setRemoteSendRC4(new RC4(Parameter.cipherOut));
 				
-				ObjectListener.clear(client);
+				PacketListener.clear(client);
 				Socket remoteSocket;
 				if (Parameter.proxy) {
 					SocketAddress proxyAddress = new InetSocketAddress(Parameter.proxyHost, Parameter.proxyPort);
@@ -95,9 +94,10 @@ public class Client {
 	
 	public void sendPacketToServer(Packet packet){
 		if(this.remoteSocket!=null && this.remoteSocket.isConnected()){
-			boolean cancel = PacketManager.send(this, packet, Type.SERVER);
+			PacketSendEvent event = new PacketSendEvent(packet,Type.SERVER,this,false);
+			EventManager.callEvent(event);
 			
-			if(!cancel){
+			if(!event.isCancelled()){
 				byte[] packetBytes = packet.toByteArray();
 				try {
 					this.remoteSendRC4.cipher(packetBytes);
