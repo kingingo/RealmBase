@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import realmbase.packets.Packet;
 
-public class CreateGuildResultPacket extends Packet {
+public class GuildResultPacket extends Packet {
 	
 	public boolean success;
 	public String errorText;

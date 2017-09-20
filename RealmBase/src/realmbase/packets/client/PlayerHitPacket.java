@@ -4,14 +4,17 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import lombok.Getter;
 import realmbase.packets.Packet;
 
-
+@Getter
 public class PlayerHitPacket extends Packet {
 	
-	public int bulletId;
-	public int objectId;
+	public int bulletId=0;
+	public int objectId=0;
 
+	public PlayerHitPacket(){}
+	
 	public PlayerHitPacket(int bulletId, int objectId) {
 		this.bulletId=bulletId;
 		this.objectId=objectId;

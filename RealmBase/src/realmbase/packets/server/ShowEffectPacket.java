@@ -9,7 +9,7 @@ import realmbase.packets.Packet;
 
 
 
-public class Show_EffectPacket extends Packet {
+public class ShowEffectPacket extends Packet {
 	
 	public int effectType;
 	public int targetObjectId;

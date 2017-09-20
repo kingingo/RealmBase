@@ -22,12 +22,36 @@ public abstract class Packet implements IData{
 		Reflections reflections = new Reflections( "realmbase.packets" );
 		List<Class<? extends Packet>> moduleClasses = new ArrayList<>( reflections.getSubTypesOf( Packet.class ) );
 		
+		//Zur überprüfung ob Packete nicht im Code vorhanden sind
+		ArrayList<String> packet_missed = new ArrayList<String>();
+		packet_missed.addAll(GetXml.packetMapName.keySet());
+		
+		//Ob packet nicht zu geordnet werden können weil änderungen in Updates
+		ArrayList<String> packet_too_much = new ArrayList<String>();
+		
+		String packetName;
 		for ( Class<? extends Packet> clazz : moduleClasses ){
 			if(clazz == UnknownPacket.class)continue;
-			if(GetXml.packetMapName.containsKey(clazz.getSimpleName().substring(0, clazz.getSimpleName().indexOf("Packet")).toUpperCase())){
-				int packetId = GetXml.packetMapName.get(clazz.getSimpleName().substring(0, clazz.getSimpleName().indexOf("Packet")).toUpperCase());
+			packetName = clazz.getSimpleName().substring(0, clazz.getSimpleName().indexOf("Packet")).toUpperCase();
+			if(GetXml.packetMapName.containsKey(packetName)){
+				int packetId = GetXml.packetMapName.get(packetName);
 				packets.put(packetId+"", clazz);
+				packet_missed.remove(packetName);
+			}else{
+				packet_too_much.add(packetName);
 			}
+		}
+		
+		if(!packet_missed.isEmpty()){
+			String missed_packets="";
+			for(String packet : packet_missed) missed_packets+=packet+", ";
+			RealmBase.println("Nicht gefundende Packete: "+missed_packets.substring(0, missed_packets.length()-2));
+		}
+			
+		if(!packet_too_much.isEmpty()){
+			String too_much_packets="";
+			for(String packet : packet_too_much) too_much_packets+=packet+", ";
+			RealmBase.println("Nicht zuzuordende Packete: "+too_much_packets.substring(0, too_much_packets.length()-2));
 		}
 	}
 	
