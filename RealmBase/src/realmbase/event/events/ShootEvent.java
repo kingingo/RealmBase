@@ -9,7 +9,8 @@ import realmbase.xml.datas.ProjectileData;
 
 @AllArgsConstructor
 @Getter
-public class AllyShootEvent extends Event{
+public class ShootEvent extends Event{
+	private ShootType type;
 	private int bulletId=0; 
 	private int ownerId=0; 
 	private int containerType=0; 
@@ -17,4 +18,10 @@ public class AllyShootEvent extends Event{
 	private float angle=0; 
 	private ProjectileData projectileData = null;
 	private Client client;
+
+	public enum ShootType{
+		PLAYER,
+		ENEMY,
+		SERVER;
+	}
 }

@@ -3,9 +3,12 @@ package realmbase.packets.server;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+
+import lombok.Getter;
 import realmbase.data.Location;
 import realmbase.packets.Packet;
 
+@Getter
 public class ServerPlayerShootPacket extends Packet {
 	
 	public int bulletId;

@@ -15,7 +15,7 @@ public class EnemyShootPacket extends Packet {
 	
 	private int bulletId;
 	private int ownerId;
-	private int bulletType;
+	private int containerType;
 	private Location startingPos = new Location();
 	private float angle;
 	private float angleInc;
@@ -26,7 +26,7 @@ public class EnemyShootPacket extends Packet {
 	public void parseFromInput(DataInputStream in) throws IOException {
 		this.bulletId = in.readUnsignedByte();
 		this.ownerId = in.readInt();
-		this.bulletType = in.readUnsignedByte();
+		this.containerType = in.readUnsignedByte();
 		this.startingPos.parseFromInput(in);
 		this.angle = in.readFloat();
 		this.damage = in.readShort();
@@ -43,7 +43,7 @@ public class EnemyShootPacket extends Packet {
 	public void writeToOutput(DataOutputStream out) throws IOException {
 		out.writeByte(this.bulletId);
 		out.writeInt(this.ownerId);
-		out.writeByte(this.bulletType);
+		out.writeByte(this.containerType);
 		this.startingPos.writeToOutput(out);
 		out.writeFloat(this.angle);
 		out.writeShort(this.damage);
@@ -57,7 +57,7 @@ public class EnemyShootPacket extends Packet {
 		return formatToString(new String[]{
 				"BulletId: "+this.bulletId,
 				"OwnerId: "+this.ownerId,
-				"BulletType: "+this.bulletType,
+				"ContainerType: "+this.containerType,
 				"Pos: "+this.startingPos.x+"/"+this.startingPos.y,
 				"Angle: "+this.angle,
 				"Damage: "+this.damage,
