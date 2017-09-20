@@ -27,4 +27,9 @@ public class FailurePacket extends Packet {
 		out.writeUTF(this.errorDescription);
 	}
 
+	public String toString(){
+		return formatToString(new String[]{
+				"ErrorId: "+errorId,
+				"Description: "+errorDescription});
+	}
 }

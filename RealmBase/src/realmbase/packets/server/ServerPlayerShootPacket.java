@@ -11,7 +11,7 @@ import realmbase.packets.Packet;
 
 @Getter
 @Setter
-public class ShootPacket extends Packet {
+public class ServerPlayerShootPacket extends Packet {
 	
 	private int bulletId;
 	private int ownerId;

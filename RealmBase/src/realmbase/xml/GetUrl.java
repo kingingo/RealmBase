@@ -1,10 +1,13 @@
 package realmbase.xml;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,11 +19,13 @@ import java.util.Set;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.commons.io.input.ReaderInputStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import lombok.Getter;
+import realmbase.RealmBase;
 import realmbase.configuration.ConfigurationSection;
 import realmbase.configuration.InvalidConfigurationException;
 import realmbase.configuration.file.YamlConfiguration;
@@ -125,6 +130,7 @@ public class GetUrl {
 	        saveAccountData(username, account);
 	        return account;
 		}catch (Exception e) {
+			RealmBase.println("Account: "+username);
 			e.printStackTrace();
 		}
 		return null;
@@ -232,6 +238,12 @@ public class GetUrl {
 		    objDocumentBuilder = objDocumentBuilderFactory.newDocumentBuilder();
 		    doc = objDocumentBuilder.parse(stream);
 		}catch(Exception ex){
+			BufferedReader in = new BufferedReader(new InputStreamReader(stream));
+			String line;
+			while((line = in.readLine()) != null){
+				RealmBase.println(line);
+			}
+			
 			throw ex;
 		}
 		return doc;

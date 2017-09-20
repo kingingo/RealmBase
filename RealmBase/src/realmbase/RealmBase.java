@@ -23,16 +23,10 @@ public class RealmBase {
 	
 	public static void println(String prefix, String message){
 		System.out.println(prefix+message);
-//		try {
-//			out.write((prefix+message+"\n").getBytes() );
-//			out.flush();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 	}
 	
 	public static void println(Client client, String message){
-		println("["+DATE_FORMAT_NOW.format(Calendar.getInstance().getTime())+" | "+client.getName()+"]: ", message);
+		println("["+DATE_FORMAT_NOW.format(Calendar.getInstance().getTime())+" | "+client.getName()+"("+client.getClientId()+")]: ", message);
 	}
 	
 	public static void println(String message){

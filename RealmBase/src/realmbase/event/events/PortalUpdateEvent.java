@@ -8,7 +8,7 @@ import realmbase.event.Event;
 
 @AllArgsConstructor
 @Getter
-public class PortalNewEvent extends Event{
+public class PortalUpdateEvent extends Event{
 	private PortalData portal;
 	private Client client;
 }

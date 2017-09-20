@@ -13,6 +13,7 @@ import realmbase.xml.GetXml;
 @Setter
 public class PortalData extends EntityData{
 	private int population;
+	private PortalType type = PortalType.UNKOWN;
 	
 	public PortalData() {}
 	
@@ -21,29 +22,40 @@ public class PortalData extends EntityData{
 	}
 	
 	public void loadStat(){
-		RealmBase.println("Portal: "+objectType);
-		if(GetXml.objectMap.containsKey(objectType)){
-			RealmBase.println("Portal: "+GetXml.objectMap.get(objectType).portal );
-			RealmBase.println("Portal: "+GetXml.objectMap.get(objectType).id);
-		}
+//		RealmBase.println("Portal: "+objectType);
+//		if(GetXml.objectMap.containsKey(objectType)){
+//			RealmBase.println("Portal: "+GetXml.objectMap.get(objectType).portal );
+//			RealmBase.println("Portal: "+GetXml.objectMap.get(objectType).id);
+//		}
 		
 		if(GetXml.objectMap.containsKey(objectType) 
-				&& GetXml.objectMap.get(objectType).portal 
-				&& GetXml.objectMap.get(objectType).id.equalsIgnoreCase("Nexus Portal")){
-			for(StatData s : getStatus().getData()){
-				if(s.id == 31){
-					String value = s.stringValue;
-					if(value.contains("NexusPortal")){
-						RealmBase.println("Value: "+value);
-						value=value.replaceAll("NexusPortal.", "").replaceAll("\\(", "").replaceAll("/85\\)", "");
-						String[] data = value.split(" ");
-						setName(data[0]);
-						setPopulation( Integer.valueOf(data[1]) );
-					}else{
-						RealmBase.println("PortalType not found "+value);
+				&& GetXml.objectMap.get(objectType).portal){
+			
+			if(GetXml.objectMap.get(objectType).id.equalsIgnoreCase("Nexus Portal")){
+				this.type=PortalType.NEXUS;
+				for(StatData s : getStatus().getData()){
+					if(s.id == 31){
+						String value = s.stringValue;
+						if(value.contains("NexusPortal")){
+							RealmBase.println("Value: "+value);
+							value=value.replaceAll("NexusPortal.", "").replaceAll("\\(", "").replaceAll("/85\\)", "");
+							String[] data = value.split(" ");
+							setName(data[0]);
+							setPopulation( Integer.valueOf(data[1]) );
+						}else{
+							RealmBase.println("PortalType not found "+value);
+						}
 					}
 				}
+			}else if(GetXml.objectMap.get(objectType).id.equalsIgnoreCase("Vault Portal")){
+				this.type=PortalType.VAULT;
+			}else if(GetXml.objectMap.get(objectType).id.equalsIgnoreCase("Pet Yard Portal")){
+				this.type=PortalType.PET_YARD;
+			}else if(GetXml.objectMap.get(objectType).id.equalsIgnoreCase("Daily Quest Portal")){
+				this.type=PortalType.DAILY_QUEST;
 			}
 		}
 	}
 }
+
+

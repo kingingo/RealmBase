@@ -171,6 +171,27 @@ public class GetXml {
 						if ((nl = projectile.getElementsByTagName("Frequency")).getLength() > 0) {
 							projectileData.frequency = Double.parseDouble(nl.item(0).getTextContent());
 						}
+						if (el.getElementsByTagName("Boomerang").getLength() > 0) {
+							projectileData.boomerang = true;
+						}
+						if (el.getElementsByTagName("Parametric").getLength() > 0) {
+							projectileData.parametric = true;
+						}
+						if (el.getElementsByTagName("Wavy").getLength() > 0) {
+							projectileData.wavy = true;
+						}
+						if (el.getElementsByTagName("FaceDir").getLength() > 0) {
+							projectileData.faceDir = true;
+						}
+						if (el.getElementsByTagName("MultiHit").getLength() > 0) {
+							projectileData.multiHit = true;
+						}
+						if ((nl = projectile.getElementsByTagName("Size")).getLength() > 0) {
+							projectileData.size = Integer.parseInt(nl.item(0).getTextContent());
+						}
+						if ((nl = projectile.getElementsByTagName("Magnitude")).getLength() > 0) {
+							projectileData.magnitude = Integer.parseInt(nl.item(0).getTextContent());
+						}
 						projectiles.add(projectileData);
 					}
 					itemData.projectiles = projectiles;

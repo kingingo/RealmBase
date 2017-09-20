@@ -1,13 +1,13 @@
 package realmbase.packets.server;
 
-import java.io.DataInput;
 import java.io.DataInputStream;
-import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import lombok.Getter;
 import realmbase.packets.Packet;
 
+@Getter
 public class AllyShootPacket extends Packet {
 	
 	public int bulletId;

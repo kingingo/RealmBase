@@ -8,7 +8,6 @@ import realmbase.event.Event;
 
 @AllArgsConstructor
 @Getter
-public class PortalNewEvent extends Event{
-	private PortalData portal;
+public class CharakterDeadEvent extends Event{
 	private Client client;
 }
