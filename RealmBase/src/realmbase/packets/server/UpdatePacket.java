@@ -11,6 +11,7 @@ import realmbase.data.EntityData;
 import realmbase.data.Tile;
 import realmbase.packets.Packet;
 import realmbase.xml.GetXml;
+import realmbase.xml.datas.EnemyData;
 
 @Getter
 @Setter
@@ -59,7 +60,7 @@ public class UpdatePacket extends Packet {
 		ArrayList<String> list = new ArrayList<>();
 		for(EntityData e : newObjs){
 			if(GetXml.objectMap.containsKey(e.getObjectType())
-					&& GetXml.objectMap.get(e.getObjectType()).quest){
+					&& ((EnemyData)GetXml.objectMap.get(e.getObjectType())).quest){
 				list.add("EntityData: "+GetXml.objectMap.get(e.getStatus().getObjectId()).id);
 				list.add("      ObjId: "+e.getStatus().getObjectId());
 				list.add("      X: "+e.getStatus().getPosition().x);

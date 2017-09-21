@@ -9,6 +9,7 @@ import lombok.Setter;
 import realmbase.data.IData;
 import realmbase.data.portal.PortalData;
 import realmbase.xml.GetXml;
+import realmbase.xml.datas.EnemyData;
 
 @Getter
 @Setter
@@ -42,12 +43,12 @@ public class EntityData implements IData{
 			
 			int objectType = in.readShort();
 			if(GetXml.objectMap.containsKey(objectType)){
-				if(GetXml.objectMap.get(objectType).player){
+				if(((EnemyData)GetXml.objectMap.get(objectType)).player){
 					e = new PlayerData();
 					e.setObjectType(objectType);
 					e.parseFromInput(in);
 					((PlayerData)e).loadStatData();
-				}else if(GetXml.objectMap.get(objectType).portal){
+				}else if(((EnemyData)GetXml.objectMap.get(objectType)).portal){
 					e = new PortalData();
 					e.setObjectType(objectType);
 					e.parseFromInput(in);

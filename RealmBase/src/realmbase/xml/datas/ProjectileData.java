@@ -6,7 +6,7 @@ public class ProjectileData {
 	public float speed = 0; // element Speed
 	public int maxDamage = 0; // element MaxDamage
 	public int minDamage = 0; // element MinDamage
-	public int lifetimeMS = 0; // element LifetimeMS
+	public double lifetimeMS = 0; // element LifetimeMS
 	public double amplitude = 0.0; // element Amplitude
 	public double frequency = 1.0; // element Frequency
 	public int magnitude = 3; //Größe

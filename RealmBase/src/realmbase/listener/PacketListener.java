@@ -1,6 +1,7 @@
 package realmbase.listener;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 import lombok.Getter;
 import realmbase.Client;
@@ -21,10 +22,11 @@ import realmbase.packets.server.FailurePacket;
 import realmbase.packets.server.NewTickPacket;
 import realmbase.packets.server.UpdatePacket;
 import realmbase.xml.GetXml;
+import realmbase.xml.datas.EnemyData;
 public class PacketListener implements EventListener{
 
 	@Getter
-	private static HashMap<Client,HashMap<Integer,EntityData>> entities = new HashMap<Client, HashMap<Integer,EntityData>>();
+	private static final HashMap<Client,HashMap<Integer,EntityData>> entities = new HashMap<Client, HashMap<Integer,EntityData>>();
 	
 	public PacketListener(){
 		EventManager.register(this);
@@ -35,19 +37,33 @@ public class PacketListener implements EventListener{
 	}
 	
 	public static PlayerData getPlayerData(Client client, int id){
-		if(entities.containsKey(client))
-			for(EntityData data : entities.get(client).values())
+		if(entities.containsKey(client)){
+			EntityData data;
+			Object[] datas = entities.get(client).values().toArray();
+			for(int i = 0; i < datas.length; i++){
+				data = (EntityData) datas[i];
 				if(data instanceof PlayerData && 
 						id == data.getStatus().getObjectId())return ((PlayerData)data);
+			}
+		}
 		return null;
 	}
 	
 	public static PlayerData getPlayerData(Client client, String name){
-		if(entities.containsKey(client))
-			for(EntityData data : entities.get(client).values())
+		if(entities.containsKey(client)){
+			EntityData data;
+			Object[] datas = entities.get(client).values().toArray();
+			for(int i = 0; i < datas.length; i++){
+				data = (EntityData) datas[i];
 				if(data instanceof PlayerData && 
 						data.getName().equalsIgnoreCase(name))return ((PlayerData)data);
+			}
+		}
 		return null;
+	}
+	
+	public static HashMap<Integer,EntityData> getClone(Client client){
+		return (HashMap<Integer,EntityData>) entities.get(client).clone();
 	}
 	
 	public static HashMap<Integer,EntityData> get(Client client){
@@ -72,12 +88,12 @@ public class PacketListener implements EventListener{
 				EntityData e = upacket.getNewObjs()[i];
 				
 				if(GetXml.packetMapName.containsKey(Integer.valueOf(e.getObjectType()))
-						&& GetXml.objectMap.get(Integer.valueOf(e.getObjectType())).player){
+						&& ((EnemyData)GetXml.objectMap.get(Integer.valueOf(e.getObjectType()))).player){
 					PlayerData player = (PlayerData) e;
 					entities.get(client).put(e.getStatus().getObjectId(), player);
 					RealmBase.println("add Player Status "+player.getName());
 				}else if(GetXml.objectMap.containsKey(Integer.valueOf(e.getObjectType()))
-						&& GetXml.objectMap.get(Integer.valueOf(e.getObjectType())).portal){
+						&& ((EnemyData)GetXml.objectMap.get(Integer.valueOf(e.getObjectType()))).portal){
 					PortalData portal = (PortalData) e;
 					entities.get(client).put(e.getStatus().getObjectId(), portal);
 					EventManager.callEvent(new PortalNewEvent(portal,client));
@@ -91,19 +107,20 @@ public class PacketListener implements EventListener{
 		}else if(packet.getId() == GetXml.packetMapName.get("NEWTICK")){
 			NewTickPacket tpacket = (NewTickPacket)packet;
 			
+			Status e;
+			HashMap<Integer,EntityData> list;
 			for(int i = 0; i < tpacket.getStatuses().length ; i++){
-				Status e = tpacket.getStatuses()[i];
+				e = tpacket.getStatuses()[i];
+				list = get(client);
 				
-				for(Integer objectId : entities.get(client).keySet()){
-					if(objectId == e.getObjectId()){
-						EntityData data = entities.get(client).get(objectId);
-						data.setStatus(e);
-						
-						if(data instanceof PortalData){
-							((PortalData) data).loadStat();
-							EventManager.callEvent(new PortalUpdateEvent(((PortalData) data),client));
-						}
-						break;
+				if(list.containsKey(e.getObjectId())){
+					EntityData data = list.get(e.getObjectId());
+					
+					data.setStatus(e);
+					
+					if(data instanceof PortalData){
+						((PortalData) data).loadStat();
+						EventManager.callEvent(new PortalUpdateEvent(((PortalData) data),client));
 					}
 				}
 			}

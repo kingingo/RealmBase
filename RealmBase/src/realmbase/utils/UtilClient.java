@@ -10,6 +10,7 @@ import realmbase.data.Location;
 import realmbase.data.PlayerData;
 import realmbase.list.Sort;
 import realmbase.xml.GetXml;
+import realmbase.xml.datas.EnemyData;
 
 public class UtilClient {
 
@@ -21,7 +22,7 @@ public class UtilClient {
 			
 			for(EntityData data : clients.values()){
 				if(GetXml.objectMap.containsKey(data.getObjectType()) &&
-						GetXml.objectMap.get(data.getObjectType()).enemy){
+						((EnemyData)GetXml.objectMap.get(data.getObjectType())).enemy){
 					between = position.distanceTo(data.getStatus().getPosition());
 					if(between <= distance){
 						list.add(new Sort<EntityData>(data, (int)between ));
@@ -31,7 +32,7 @@ public class UtilClient {
 		}else{
 			for(EntityData data : clients.values()){
 				if(GetXml.objectMap.containsKey(data.getObjectType()) &&
-						GetXml.objectMap.get(data.getObjectType()).enemy){
+						((EnemyData)GetXml.objectMap.get(data.getObjectType())).enemy){
 					list.add(new Sort<EntityData>(data, (int)1 ));
 				}
 			}

@@ -1,12 +1,8 @@
 package realmbase.xml.datas;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ItemData {
-	
-	public String id = ""; // attribute id
-	public int type = -1; // attribute type
+public class ItemData extends ObjectData{
 	public int slotType = -1; // element SlotType
 	public int tier = 0; // element Tier
 	public String petFamily = ""; // element PetFamily
@@ -24,5 +20,4 @@ public class ItemData {
 	public boolean multiPhase = false; // element MultiPhase
 	public int numProjectiles = -1; // element NumProjectiles
 	public List<ProjectileData> projectiles = null;
-
 }

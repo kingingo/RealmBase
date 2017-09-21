@@ -8,6 +8,7 @@ import realmbase.data.Location;
 import realmbase.data.StatData;
 import realmbase.data.Status;
 import realmbase.xml.GetXml;
+import realmbase.xml.datas.EnemyData;
 
 @Getter
 @Setter
@@ -29,7 +30,7 @@ public class PortalData extends EntityData{
 //		}
 		
 		if(GetXml.objectMap.containsKey(objectType) 
-				&& GetXml.objectMap.get(objectType).portal){
+				&& ((EnemyData)GetXml.objectMap.get(objectType)).portal){
 			
 			if(GetXml.objectMap.get(objectType).id.equalsIgnoreCase("Nexus Portal")){
 				this.type=PortalType.NEXUS;
@@ -37,7 +38,7 @@ public class PortalData extends EntityData{
 					if(s.id == 31){
 						String value = s.stringValue;
 						if(value.contains("NexusPortal")){
-							RealmBase.println("Value: "+value);
+//							RealmBase.println("Value: "+value);
 							value=value.replaceAll("NexusPortal.", "").replaceAll("\\(", "").replaceAll("/85\\)", "");
 							String[] data = value.split(" ");
 							setName(data[0]);
