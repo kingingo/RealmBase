@@ -80,7 +80,7 @@ public class PacketListener implements EventListener{
 		Client client = ev.getClient();
 		Packet packet = ev.getPacket();
 		
-		if(!entities.containsKey(client))entities.put(client, new HashMap<>());
+		if(!entities.containsKey(client))entities.put(client, new HashMap<Integer,EntityData>());
 		
 		if(packet.getId() == GetXml.packetMapName.get("UPDATE")){
 			UpdatePacket upacket = (UpdatePacket)packet;

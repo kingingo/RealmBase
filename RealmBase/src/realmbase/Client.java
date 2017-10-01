@@ -44,12 +44,12 @@ public class Client {
 	protected byte[] remoteBuffer = new byte[bufferLength];
 	protected int remoteBufferIndex = 0;
 
-	public boolean connect(InetSocketAddress socketAddress, Callback<Client> callback) {
+	public boolean connect(final InetSocketAddress socketAddress, final Callback<Client> callback) {
 		if (remoteSocket != null) {
 			return false;
 		}
 		
-		Client client = this;
+		final Client client = this;
 		new Thread(new Runnable() {
 
 			@Override
