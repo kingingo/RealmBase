@@ -22,7 +22,7 @@ public class RealmBase {
 	public static final SimpleDateFormat DATE_FORMAT_NOW = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	public static void println(String prefix, String message){
-		System.out.println(prefix+message);
+		System.out.println("["+prefix+"]: "+message);
 	}
 	
 	public static void println(Client client, String message){

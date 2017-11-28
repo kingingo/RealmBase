@@ -38,6 +38,9 @@ public class GetUrl {
 	private static final HashMap<String, InetSocketAddress> serverAdresses = new HashMap<String, InetSocketAddress>();
 	private static final String LINK = "http://realmofthemadgodhrd.appspot.com/char/list";
 	private static final File ACCOUNT_PATH = new File("accountdatas");
+	private static final int ACCOUNT_LOAD_LIMIT = 30;
+	private static final long ACCOUNT_LOAD_TIME = 1000 * 60 * 5;
+	private static int account_load_counter = 0;
 	
 	public static AccountData loadAccountData(String username){
 		if(!ACCOUNT_PATH.exists())ACCOUNT_PATH.mkdirs();
@@ -95,6 +98,14 @@ public class GetUrl {
 			AccountData account = loadAccountData(username);
 			if(account != null)return account;
 			
+			if(account_load_counter >= ACCOUNT_LOAD_LIMIT){
+				RealmBase.println(account_load_counter+" Account has been loading there a break for 5min");
+				account_load_counter=0;
+				Thread.sleep(ACCOUNT_LOAD_TIME);
+			}
+			
+			account_load_counter++;
+			
 	        NodeList descNodes = openConnection(username, password);
 	        account = new AccountData();
 	        ArrayList<AccountData.Char> list = new ArrayList<>();
@@ -128,6 +139,7 @@ public class GetUrl {
 	        
 	        account.setCharakters(list.toArray(new AccountData.Char[list.size()]));
 	        saveAccountData(username, account);
+	        RealmBase.println("GetURL", "Load AccountData for "+username);
 	        return account;
 		}catch (Exception e) {
 			RealmBase.println("Account: "+username);
