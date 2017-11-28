@@ -11,6 +11,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
+import realmbase.frame.ClientsFrame;
 import realmbase.listener.PacketListener;
 import realmbase.packets.Packet;
 import realmbase.xml.GetUrl;
@@ -31,6 +34,17 @@ public class RealmBase {
 	
 	public static void println(String message){
 		println("["+DATE_FORMAT_NOW.format(Calendar.getInstance().getTime())+" | RealmBase]: ", message);
+	}
+	
+	public static void main(String[] args) {
+		
+		SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+
+        		ClientsFrame frame = new ClientsFrame();
+            }
+        });
+		
 	}
 	
 	public static void init(){
