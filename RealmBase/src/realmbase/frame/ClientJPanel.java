@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import lombok.Getter;
+import realmbase.RealmBase;
 import realmbase.data.Location;
 import realmbase.event.EventHandler;
 import realmbase.event.EventListener;
@@ -18,11 +19,15 @@ public class ClientJPanel extends JPanel implements EventListener{
 	private int clientId;
 	@Getter
 	private Location position;
+	private Color color;
 	
-	public ClientJPanel(int clientId,Location position){
+	public ClientJPanel(Color color, int clientId,Location position){
 		this.clientId=clientId;
+		this.color=color;
 		this.position=position;
 		EventManager.register(this);
+		
+		if(ClientsFrame.getFrame()==null)RealmBase.println("NULL!!!! "+color.toString());
 		ClientsFrame.getFrame().add(this);
 	}
 	
@@ -30,16 +35,18 @@ public class ClientJPanel extends JPanel implements EventListener{
 	public void receive(ClientMoveEvent ev){
 		if(ev.getClientId() == clientId){
 			move(ev.getLocation());
+			RealmBase.println("MOVE "+ev.getLocation().x+"/"+ev.getLocation().y);
 		}
 	}
 	
 	public void delete(){
+		RealmBase.println("DELETE!!!");
 		ClientsFrame.getFrame().remove(this);
 	}
 	
 	public void paintComponent(Graphics g) {
         super.paintComponent(g);
-		g.setColor(Color.RED);
+		g.setColor(color);
         g.fillOval((int)getPosition().x, (int)getPosition().y, 20, 20); 
 	}
 	

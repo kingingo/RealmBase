@@ -20,7 +20,7 @@ public class Parameter {
 	public static int proxyPort = 80;
 	public static ProxyAuth proxyAuth  = new ProxyAuth("", "");
 	
-	public final static String BUILD_VERSION = "X18.0.0";
+	public final static String BUILD_VERSION = "X19.1.0";
 	public final static Location PORTAL_POS = new Location( (float) 106.94497 , (float) 131.91075);
 	public final static double SPEED_MULTIPLIER = 7.462686567164179E-5;
 	public final static double SPEED_BASE = 0.0034999999999999996;

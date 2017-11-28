@@ -1,5 +1,6 @@
 package realmbase;
 
+import java.awt.Color;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Authenticator;
@@ -51,7 +52,8 @@ public class Client {
 	public void setClientJPanel(Location location){
 		//Wenn ClientJPanel noch nicht gesetzt ist weil die Location nicht bekannt war dann wird die jetzt gesetzt!
 		if(getJPanel()==null){
-			this.jPanel = new ClientJPanel(getClientId(), location);
+			this.jPanel = new ClientJPanel(Color.BLUE,getClientId(), location);
+			RealmBase.println("ADD PANEL!!");
 		}
 	}
 

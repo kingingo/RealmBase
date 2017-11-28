@@ -92,6 +92,7 @@ public class PacketListener implements EventListener{
 					PlayerData player = (PlayerData) e;
 					entities.get(client).put(e.getStatus().getObjectId(), player);
 					RealmBase.println("add Player Status "+player.getName());
+					
 				}else if(GetXml.objectMap.containsKey(Integer.valueOf(e.getObjectType()))
 						&& ((EnemyData)GetXml.objectMap.get(Integer.valueOf(e.getObjectType()))).portal){
 					PortalData portal = (PortalData) e;

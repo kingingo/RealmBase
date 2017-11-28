@@ -1,15 +1,11 @@
 package realmbase.frame;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
 
 import javax.swing.JFrame;
-import javax.swing.Timer;
 
 import lombok.Getter;
+import realmbase.data.Location;
 
 public class ClientsFrame extends JFrame{
 	@Getter
@@ -17,24 +13,12 @@ public class ClientsFrame extends JFrame{
 
 	public ClientsFrame(){
 		super("ROTMG");
-		this.frame=frame;
+		this.frame=this;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(900,900);
-		add(new RJPanel());
+		setSize(600,600);
 		setVisible(true);
-		
-		new Timer(30, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                RJPanel.panel.move();
-                RJPanel.panel.repaint();
-            }
-        }).start();
+		add(new ClientJPanel(Color.BLACK, 10000, new Location(50, 50)));
 	}
-	
-	@Override
-    public Dimension getPreferredSize() {
-        return new Dimension(900, 900);
-    }
 	
 }
