@@ -9,10 +9,15 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import lombok.Getter;
+
 public class ClientsFrame extends JFrame{
+	@Getter
+	private static ClientsFrame frame;
 
 	public ClientsFrame(){
 		super("ROTMG");
+		this.frame=frame;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(900,900);

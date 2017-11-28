@@ -12,10 +12,12 @@ import java.net.SocketAddress;
 import lombok.Getter;
 import lombok.Setter;
 import realmbase.data.Callback;
+import realmbase.data.Location;
 import realmbase.data.Type;
 import realmbase.encryption.RC4;
 import realmbase.event.EventManager;
 import realmbase.event.events.PacketSendEvent;
+import realmbase.frame.ClientJPanel;
 import realmbase.listener.PacketListener;
 import realmbase.packets.Packet;
 
@@ -43,6 +45,15 @@ public class Client {
 	protected RC4 remoteSendRC4;
 	protected byte[] remoteBuffer = new byte[bufferLength];
 	protected int remoteBufferIndex = 0;
+	@Getter
+	private ClientJPanel jPanel;
+	
+	public void setClientJPanel(Location location){
+		//Wenn ClientJPanel noch nicht gesetzt ist weil die Location nicht bekannt war dann wird die jetzt gesetzt!
+		if(getJPanel()==null){
+			this.jPanel = new ClientJPanel(getClientId(), location);
+		}
+	}
 
 	public boolean connect(final InetSocketAddress socketAddress, final Callback<Client> callback) {
 		if (remoteSocket != null) {
@@ -121,6 +132,11 @@ public class Client {
 	
 	public void disconnect() {
 		if (this.remoteSocket != null) {
+			if(getJPanel()!=null){
+				getJPanel().delete();
+				this.jPanel=null;
+			}
+			
 			try {
 				this.remoteSocket.close();
 				
