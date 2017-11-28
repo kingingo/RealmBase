@@ -1,15 +1,12 @@
 package realmbase.data;
 
-import java.awt.Color;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
 import lombok.Getter;
 import lombok.Setter;
-import realmbase.data.IData;
 import realmbase.data.portal.PortalData;
-import realmbase.frame.ClientJPanel;
 import realmbase.xml.GetXml;
 import realmbase.xml.datas.EnemyData;
 

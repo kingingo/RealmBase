@@ -13,6 +13,9 @@ import realmbase.data.portal.PortalData;
 import realmbase.event.EventHandler;
 import realmbase.event.EventListener;
 import realmbase.event.EventManager;
+import realmbase.event.events.EntityCreateEvent;
+import realmbase.event.events.EntityRemoveEvent;
+import realmbase.event.events.EntityUpdateEvent;
 import realmbase.event.events.PacketReceiveEvent;
 import realmbase.event.events.PortalNewEvent;
 import realmbase.event.events.PortalUpdateEvent;
@@ -33,6 +36,10 @@ public class PacketListener implements EventListener{
 	}
 	
 	public static void clear(Client client){
+		if(entities.containsKey(client)) 
+			for(EntityData e : entities.get(client).values())
+				EventManager.callEvent(new EntityRemoveEvent(e));
+		
 		entities.remove(client);
 	}
 	
@@ -86,6 +93,7 @@ public class PacketListener implements EventListener{
 			UpdatePacket upacket = (UpdatePacket)packet;
 			for(int i = 0; i < upacket.getNewObjs().length ; i++){
 				EntityData e = upacket.getNewObjs()[i];
+				EventManager.callEvent(new EntityCreateEvent(e));
 				
 				if(GetXml.packetMapName.containsKey(Integer.valueOf(e.getObjectType()))
 						&& ((EnemyData)GetXml.objectMap.get(Integer.valueOf(e.getObjectType()))).player){
@@ -103,8 +111,10 @@ public class PacketListener implements EventListener{
 				}
 			}
 			
-			for(int i = 0; i < upacket.getDrops().length ; i++)
+			for(int i = 0; i < upacket.getDrops().length ; i++) {
+				EventManager.callEvent(new EntityRemoveEvent(entities.get(client).get(upacket.getDrops()[i])));
 				entities.get(client).remove(upacket.getDrops()[i]);
+			}
 		}else if(packet.getId() == GetXml.packetMapName.get("NEWTICK")){
 			NewTickPacket tpacket = (NewTickPacket)packet;
 			
@@ -118,6 +128,7 @@ public class PacketListener implements EventListener{
 					EntityData data = list.get(e.getObjectId());
 					
 					data.setStatus(e);
+					EventManager.callEvent(new EntityUpdateEvent(data));
 					
 					if(data instanceof PortalData){
 						((PortalData) data).loadStat();

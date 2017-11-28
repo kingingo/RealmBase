@@ -46,14 +46,22 @@ public class Location implements IData {
 		return (float) (top/bottom);
 	}
 	
-	public void subtract(Location location){
-		this.x-=location.x;
-		this.y-=location.y;
+	public Location set(Location location) {
+		this.x=location.x;
+		this.y=location.y;
+		return this;
 	}
 	
-	public void add(Location location){
+	public Location subtract(Location location){
+		this.x-=location.x;
+		this.y-=location.y;
+		return this;
+	}
+	
+	public Location add(Location location){
 		this.x+=location.x;
 		this.y+=location.y;
+		return this;
 	}
 	
 	public float getAngleCosTo2(Location location){

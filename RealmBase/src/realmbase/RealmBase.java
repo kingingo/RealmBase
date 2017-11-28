@@ -11,8 +11,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.swing.SwingUtilities;
-
 import realmbase.frame.ClientsFrame;
 import realmbase.listener.PacketListener;
 import realmbase.packets.Packet;
@@ -36,16 +34,25 @@ public class RealmBase {
 		println("["+DATE_FORMAT_NOW.format(Calendar.getInstance().getTime())+" | RealmBase]: ", message);
 	}
 	
-	public static void main(String[] args) {
-		
-		SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-
-        		ClientsFrame frame = new ClientsFrame();
-            }
-        });
-		
-	}
+//	public static void main(String[] args) {
+//		
+//		SwingUtilities.invokeLater(new Runnable() {
+//            public void run() {
+//
+//        		ClientsFrame frame = new ClientsFrame();
+//        		ClientJPanel c;
+//        		frame.add(c = new ClientJPanel(Color.RED, 1, new Location(50,50)));
+//        		new Timer(30, new ActionListener() {
+//					
+//					@Override
+//					public void actionPerformed(ActionEvent e) {
+//						c.move(c.getPosition().clone().add(new Location(2,0)));
+//					}
+//				}).start();
+//            }
+//        });
+//		
+//	}
 	
 	public static void init(){
 		try {
@@ -64,6 +71,7 @@ public class RealmBase {
 		GetUrl.loadServer();
 		Packet.loadPackets();
 		new PacketListener();
+		new ClientsFrame();
 		
 		PrintStream previous = System.out;   
 	    OutputStream outputStreamCombiner =  new OutputStreamCombiner(Arrays.asList(previous, out)); 

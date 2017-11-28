@@ -8,8 +8,7 @@ import realmbase.event.Event;
 
 @Getter
 @AllArgsConstructor
-public class ClientMoveEvent extends Event{
+public class ClientDisconnectEvent extends Event{
 	private Client client;
-	private Location location;
 	
 }

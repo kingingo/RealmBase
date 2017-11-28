@@ -1,6 +1,5 @@
 package realmbase;
 
-import java.awt.Color;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Authenticator;
@@ -13,12 +12,12 @@ import java.net.SocketAddress;
 import lombok.Getter;
 import lombok.Setter;
 import realmbase.data.Callback;
-import realmbase.data.Location;
 import realmbase.data.Type;
 import realmbase.encryption.RC4;
 import realmbase.event.EventManager;
+import realmbase.event.events.ClientDisconnectEvent;
 import realmbase.event.events.PacketSendEvent;
-import realmbase.frame.ClientJPanel;
+import realmbase.frame.ClientShapes;
 import realmbase.listener.PacketListener;
 import realmbase.packets.Packet;
 
@@ -34,8 +33,8 @@ public class Client {
 	@Getter
 	@Setter
 	protected long connectTime = System.currentTimeMillis();
-	@Setter
 	@Getter
+	@Setter
 	protected int clientId = 0;
 	@Setter
 	@Getter
@@ -46,17 +45,11 @@ public class Client {
 	protected RC4 remoteSendRC4;
 	protected byte[] remoteBuffer = new byte[bufferLength];
 	protected int remoteBufferIndex = 0;
-	@Getter
-	private ClientJPanel jPanel;
-	
-	public void setClientJPanel(Location location){
-		//Wenn ClientJPanel noch nicht gesetzt ist weil die Location nicht bekannt war dann wird die jetzt gesetzt!
-		if(getJPanel()==null){
-			this.jPanel = new ClientJPanel(Color.BLUE,getClientId(), location);
-			RealmBase.println("ADD PANEL!!");
-		}
-	}
 
+	public Client() {
+		ClientShapes.add(this);
+	}
+	
 	public boolean connect(final InetSocketAddress socketAddress, final Callback<Client> callback) {
 		if (remoteSocket != null) {
 			return false;
@@ -134,10 +127,7 @@ public class Client {
 	
 	public void disconnect() {
 		if (this.remoteSocket != null) {
-			if(getJPanel()!=null){
-				getJPanel().delete();
-				this.jPanel=null;
-			}
+			EventManager.callEvent(new ClientDisconnectEvent(this));
 			
 			try {
 				this.remoteSocket.close();

@@ -1,4 +1,4 @@
-package realmbase.frame;
+package realmbase.frame.examples;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
