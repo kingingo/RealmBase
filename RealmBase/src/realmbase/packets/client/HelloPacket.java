@@ -48,38 +48,24 @@ public class HelloPacket extends Packet{
 	}
 	
 	public void parseFromInput(DataInputStream in) throws IOException {
-		RealmBase.println("Available: "+in.available());
 		this.buildVersion = in.readUTF();
-		RealmBase.println("BuildV: "+this.buildVersion+"  "+in.available());
 		this.gameId = in.readInt();
-		RealmBase.println("gameId: "+this.gameId+"  "+in.available());
 		this.guid = in.readUTF();
-		RealmBase.println("guid: "+this.guid+"  "+in.available());
 		this.random1 = in.readInt();
-		RealmBase.println("random1: "+this.random1+"  "+in.available());
 		this.password = in.readUTF();
-		RealmBase.println("password: "+this.password+"  "+in.available());
 		this.random2 = in.readInt();
-		RealmBase.println("random2: "+this.random2+"  "+in.available());
 		this.secret = in.readUTF();
-		RealmBase.println("secret: "+this.secret+"  "+in.available());
 		this.keyTime = in.readInt();
-		RealmBase.println("keyTime: "+this.keyTime+"  "+in.available());
 		this.key = new byte[in.readShort()];
 		in.readFully(this.key);
 		this.mapJson = new byte[in.readInt()];
 	    in.readFully(this.mapJson);
 		this.entrytag = in.readUTF();
 		this.gameNet = in.readUTF();
-		RealmBase.println("gameNet: "+this.gameNet+"  "+in.available());
 		this.gameNetUserId = in.readUTF();
-		RealmBase.println("gameNetUserId: "+this.gameNetUserId+"  "+in.available());
 		this.playPlatform = in.readUTF();
-		RealmBase.println("playPlatform: "+this.playPlatform+"  "+in.available());
 		this.platformToken = in.readUTF();
-		RealmBase.println("platformToken: "+this.platformToken+"  "+in.available());
-//		this.userToken = in.readUTF();
-		RealmBase.println("userToken: "+this.userToken+"  "+in.available());
+		this.userToken = in.readUTF();
 	}
 
 	public void writeToOutput(DataOutputStream out) throws IOException {
