@@ -98,9 +98,9 @@ public abstract class Packet implements IData{
 				Packet packet = packetClass.newInstance();
 				packet.parseFromInput(data);
 				int byteLength = packet.toByteArray().length;
-				if(byteLength != data.length){
+				if(byteLength != data.length)
 					RealmBase.println("Die Packet laenge  von "+packet.getPacketName()+" stimmt nicht "+byteLength+" != "+data.length);
-				}
+				
 				return packet;
 			} catch (IOException e) {
 				e.printStackTrace();

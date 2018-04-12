@@ -9,6 +9,9 @@ import realmbase.data.Location;
 
 public class ClientsFrame extends JFrame{
 
+	@Getter
+	private static JFrame frame;
+	
 	public ClientsFrame(){
 		super("ROTMG");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

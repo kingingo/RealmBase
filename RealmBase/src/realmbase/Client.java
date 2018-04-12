@@ -47,7 +47,7 @@ public class Client {
 	protected int remoteBufferIndex = 0;
 
 	public Client() {
-		ClientShapes.add(this);
+//		ClientShapes.add(this);
 	}
 	
 	public boolean connect(final InetSocketAddress socketAddress, final Callback<Client> callback) {

@@ -33,7 +33,7 @@ public class ClientJPanel extends JPanel implements EventListener{
 	
 	@EventHandler
 	public void receive(ClientMoveEvent ev){
-		if(ev.getClientId() == clientId){
+		if(ev.getClient().getClientId() == clientId){
 			move(ev.getLocation());
 			RealmBase.println("MOVE "+ev.getLocation().x+"/"+ev.getLocation().y);
 		}

@@ -7,6 +7,7 @@ import java.io.IOException;
 import lombok.Getter;
 import lombok.Setter;
 import realmbase.Parameter;
+import realmbase.RealmBase;
 import realmbase.encryption.GUID;
 import realmbase.packets.Packet;
 import realmbase.packets.server.ReconnectPacket;
@@ -24,7 +25,7 @@ public class HelloPacket extends Packet{
 	private String secret = "";
 	private int keyTime = 0;
 	private byte[] key = new byte[0];
-	private String mapJSON = "";
+	private byte[] mapJson = new byte[0];
 	private String entrytag = "";
 	private String gameNet = "";
 	private String gameNetUserId = "rotmg";
@@ -47,23 +48,38 @@ public class HelloPacket extends Packet{
 	}
 	
 	public void parseFromInput(DataInputStream in) throws IOException {
+		RealmBase.println("Available: "+in.available());
 		this.buildVersion = in.readUTF();
+		RealmBase.println("BuildV: "+this.buildVersion+"  "+in.available());
 		this.gameId = in.readInt();
+		RealmBase.println("gameId: "+this.gameId+"  "+in.available());
 		this.guid = in.readUTF();
+		RealmBase.println("guid: "+this.guid+"  "+in.available());
 		this.random1 = in.readInt();
+		RealmBase.println("random1: "+this.random1+"  "+in.available());
 		this.password = in.readUTF();
+		RealmBase.println("password: "+this.password+"  "+in.available());
 		this.random2 = in.readInt();
+		RealmBase.println("random2: "+this.random2+"  "+in.available());
 		this.secret = in.readUTF();
+		RealmBase.println("secret: "+this.secret+"  "+in.available());
 		this.keyTime = in.readInt();
+		RealmBase.println("keyTime: "+this.keyTime+"  "+in.available());
 		this.key = new byte[in.readShort()];
 		in.readFully(this.key);
-		this.mapJSON = in.readUTF();
+		this.mapJson = new byte[in.readInt()];
+	    in.readFully(this.mapJson);
 		this.entrytag = in.readUTF();
 		this.gameNet = in.readUTF();
+		RealmBase.println("gameNet: "+this.gameNet+"  "+in.available());
 		this.gameNetUserId = in.readUTF();
+		RealmBase.println("gameNetUserId: "+this.gameNetUserId+"  "+in.available());
 		this.playPlatform = in.readUTF();
+		RealmBase.println("playPlatform: "+this.playPlatform+"  "+in.available());
 		this.platformToken = in.readUTF();
-		this.userToken = in.readUTF();
+		RealmBase.println("platformToken: "+this.platformToken+"  "+in.available());
+//		this.userToken = in.readUTF();
+		RealmBase.println("userToken: "+this.userToken+"  "+in.available());
 	}
 
 	public void writeToOutput(DataOutputStream out) throws IOException {
@@ -77,8 +93,8 @@ public class HelloPacket extends Packet{
         out.writeInt(this.keyTime);
         out.writeShort(this.key.length);
         out.write(this.key);
-        out.writeInt(this.mapJSON.length());
-        out.writeBytes(this.mapJSON);
+        out.writeInt(this.mapJson.length);
+        out.write(this.mapJson);
         out.writeUTF(this.entrytag);
         out.writeUTF(this.gameNet);
         out.writeUTF(this.gameNetUserId);
@@ -98,7 +114,7 @@ public class HelloPacket extends Packet{
 						"Secret: "+this.secret,
 						"KeyTime: "+this.keyTime,
 						"Key: "+this.key,
-						"MapJSON: "+this.mapJSON,
+						"MapJSON: "+this.mapJson,
 						"EntryTag: "+this.entrytag,
 						"GameNet: "+this.gameNet,
 						"GameNetUserId: "+this.gameNetUserId,

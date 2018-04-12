@@ -11,8 +11,10 @@ public class Parameter {
 	//SWF File: https://realmofthemadgodhrd.appspot.com/AssembleeGameClientVERSIONID.swf
 	//          https://realmofthemadgodhrd.appspot.com/AssembleeGameClient1501601788.swf
 	
-	public static String cipherIn = "72c5583cafb6818995cdd74b80";
-	public static String cipherOut = "311f80691451c71d09a13a2a6e";
+	public static String cipherIn = "6a39570cc9de4ec71d64821894c79332b197f92ba85ed281a023".substring(26);
+	public static String cipherOut = "6a39570cc9de4ec71d64821894c79332b197f92ba85ed281a023".substring(0,26);
+//	public static String cipherIn = "72c5583cafb6818995cdd74b80";
+//	public static String cipherOut = "311f80691451c71d09a13a2a6e";
 	public static InetSocketAddress remoteHost = GetUrl.getServerAdresses().get("EuNorth2".toUpperCase());
 	
 	public static boolean proxy = false;
@@ -20,7 +22,7 @@ public class Parameter {
 	public static int proxyPort = 80;
 	public static ProxyAuth proxyAuth  = new ProxyAuth("", "");
 	
-	public final static String BUILD_VERSION = "X19.1.0";
+	public final static String BUILD_VERSION = "X24.0.0";
 	public final static Location PORTAL_POS = new Location( (float) 106.94497 , (float) 131.91075);
 	public final static double SPEED_MULTIPLIER = 7.462686567164179E-5;
 	public final static double SPEED_BASE = 0.0034999999999999996;

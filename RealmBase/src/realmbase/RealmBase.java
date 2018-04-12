@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-
 import realmbase.frame.ClientsFrame;
 import realmbase.listener.PacketListener;
 import realmbase.packets.Packet;
@@ -71,7 +70,7 @@ public class RealmBase {
 		GetUrl.loadServer();
 		Packet.loadPackets();
 		new PacketListener();
-		new ClientsFrame();
+//		new ClientsFrame();
 		
 		PrintStream previous = System.out;   
 	    OutputStream outputStreamCombiner =  new OutputStreamCombiner(Arrays.asList(previous, out)); 
